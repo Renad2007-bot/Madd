@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>تحديد المنطقة بالخريطة</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Tahoma, Arial, sans-serif;
+      }
+
+      #result {
+        padding: 12px;
+        line-height: 1.8;
+        background: #f8fafc;
+        border-bottom: 1px solid #ddd;
+      }
+
+      #map {
+        width: 100%;
+        height: 75vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="result">جاري طلب الموقع...</div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+      const GOOGLE_API_KEY = "AIzaSyBICbbtpdfv7WezS24Px-xCZAVsk6-E1kE";
+
+      let map;
+      let marker;
+      let circle;
+
+      window.onload = function () {
+        initMap();
+        getMyRegion();
+      };
+
+      function initMap() {
+        map = L.map("map").setView([23.8859, 45.0792], 5);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "&copy; OpenStreetMap contributors",
+        }).addTo(map);
+      }
+
+      function getMyRegion() {
+        const result = document.getElementById("result");
+
+        if (!navigator.geolocation) {
+          result.innerHTML = "المتصفح لا يدعم تحديد الموقع.";
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          async function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const accuracy = Math.round(position.coords.accuracy);
+
+            map.setView([lat, lng], 15);
+
+            if (marker) {
+              map.removeLayer(marker);
+            }
+
+            if (circle) {
+              map.removeLayer(circle);
+            }
+
+            marker = L.marker([lat, lng]).addTo(map);
+
+            circle = L.circle([lat, lng], {
+              radius: accuracy,
+            }).addTo(map);
+
+            result.innerHTML = `
+            تم أخذ الإحداثيات:<br>
+            Latitude: ${lat}<br>
+            Longitude: ${lng}<br>
+            Accuracy: ${accuracy} متر<br>
+            جاري جلب المنطقة...
+          `;
+
+            try {
+              const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ar&region=sa&key=${GOOGLE_API_KEY}`;
+
+              const response = await fetch(url);
+              const data = await response.json();
+
+              if (data.status !== "OK") {
+                result.innerHTML = `
+                فشل جلب المنطقة من Google.<br>
+                السبب: ${data.status}<br>
+                تأكدي من تفعيل Geocoding API و Billing.
+              `;
+                return;
+              }
+
+              const components = data.results[0].address_components;
+
+              function getComponent(type) {
+                const item = components.find((c) => c.types.includes(type));
+                return item ? item.long_name : "غير محدد";
+              }
+
+              const country = getComponent("country");
+              const region = getComponent("administrative_area_level_1");
+
+              const city =
+                getComponent("locality") !== "غير محدد"
+                  ? getComponent("locality")
+                  : getComponent("administrative_area_level_2");
+
+              const district =
+                getComponent("sublocality_level_1") !== "غير محدد"
+                  ? getComponent("sublocality_level_1")
+                  : getComponent("neighborhood");
+
+              const address = data.results[0].formatted_address;
+
+              result.innerHTML = `
+              <b>النتيجة:</b><br>
+              الدولة: ${country}<br>
+              المنطقة: ${region}<br>
+              المدينة: ${city}<br>
+              الحي: ${district}<br>
+              العنوان: ${address}<br>
+              الدقة: ${accuracy} متر<br>
+              الإحداثيات: ${lat}, ${lng}
+            `;
+
+              marker
+                .bindPopup(
+                  `
+              <div style="text-align:right; direction:rtl;">
+                <b>موقعك الحالي</b><br>
+                المنطقة: ${region}<br>
+                المدينة: ${city}<br>
+                الحي: ${district}<br>
+                الدقة: ${accuracy} متر
+              </div>
+            `,
+                )
+                .openPopup();
+            } catch (error) {
+              result.innerHTML = "حدث خطأ أثناء جلب المنطقة.";
+            }
+          },
+          function (error) {
+            if (error.code === error.PERMISSION_DENIED) {
+              result.innerHTML = "تم رفض إذن الموقع.";
+            } else if (error.code === error.POSITION_UNAVAILABLE) {
+              result.innerHTML = "تعذر تحديد الموقع.";
+            } else if (error.code === error.TIMEOUT) {
+              result.innerHTML = "انتهت مهلة تحديد الموقع.";
+            } else {
+              result.innerHTML = "حدث خطأ غير معروف.";
+            }
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0,
+          },
+        );
+      }
+    </script>
+  </body>
+</html>

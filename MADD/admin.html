@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>لوحة الإدارة — مدد</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #f0f2f5;
+        --surface: #fff;
+        --border: #e2e8f0;
+        --green: #1a5e35;
+        --green-light: #e8f5ee;
+        --gold: #c9a84c;
+        --danger: #c03030;
+        --danger-light: #fff0f0;
+        --text: #1a2332;
+        --muted: #64748b;
+        --radius: 10px;
+        --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        font-size: 14px;
+      }
+
+      /* Login */
+      #loginScreen {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .login-box {
+        background: var(--surface);
+        border-radius: 16px;
+        padding: 40px;
+        width: 360px;
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+      .login-box h1 {
+        font-size: 22px;
+        margin-bottom: 6px;
+        color: var(--green);
+        font-weight: 800;
+      }
+      .login-box p {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 24px;
+      }
+      .login-box input {
+        width: 100%;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 14px;
+        outline: none;
+        margin-bottom: 12px;
+        text-align: center;
+      }
+      .login-box input:focus {
+        border-color: var(--green);
+      }
+      .login-box button {
+        width: 100%;
+        background: var(--green);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .login-box button:hover {
+        background: #155228;
+      }
+      .login-err {
+        color: var(--danger);
+        font-size: 12px;
+        margin-top: 8px;
+      }
+
+      /* Layout */
+      #adminApp {
+        display: none;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .topbar {
+        background: var(--green);
+        color: #fff;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .topbar h1 {
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .topbar .logout {
+        margin-right: auto;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        border-radius: 6px;
+        padding: 5px 16px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .topbar .logout:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .main {
+        display: flex;
+        flex: 1;
+        gap: 0;
+      }
+      .sidebar {
+        width: 190px;
+        background: var(--surface);
+        border-left: 1px solid var(--border);
+        padding: 16px 0;
+        flex-shrink: 0;
+      }
+      .sidebar h3 {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        padding: 0 16px 8px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 16px;
+        cursor: pointer;
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        transition: background 0.15s;
+        border-right: 3px solid transparent;
+      }
+      .nav-item:hover {
+        background: var(--bg);
+      }
+      .nav-item.active {
+        background: var(--green-light);
+        color: var(--green);
+        border-right-color: var(--green);
+      }
+      .nav-item .cnt {
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 1px 8px;
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .nav-item.active .cnt {
+        background: var(--green-light);
+        color: var(--green);
+      }
+
+      .content {
+        flex: 1;
+        padding: 24px;
+        overflow: auto;
+      }
+
+      /* Toolbar */
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .toolbar h2 {
+        font-size: 17px;
+        font-weight: 700;
+        margin-left: auto;
+      }
+      .search-box {
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 13px;
+        outline: none;
+        width: 220px;
+      }
+      .search-box:focus {
+        border-color: var(--green);
+      }
+      .btn {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .btn-primary {
+        background: var(--green);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: #155228;
+      }
+      .btn-danger {
+        background: var(--danger-light);
+        color: var(--danger);
+        border: 1.5px solid #fcc;
+      }
+      .btn-danger:hover {
+        background: #fdd;
+      }
+      .btn-ghost {
+        background: var(--bg);
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover {
+        background: var(--border);
+      }
+      .btn-sm {
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .btn-sm-danger {
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--danger-light);
+        color: var(--danger);
+        border: 1px solid #fcc;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .btn-sm-danger:hover {
+        background: #fdd;
+      }
+
+      /* Stats */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .stat-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        box-shadow: var(--shadow);
+      }
+      .stat-val {
+        font-size: 30px;
+        font-weight: 800;
+        color: var(--green);
+      }
+      .stat-lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+
+      /* Table */
+      .table-wrap {
+        background: var(--surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      thead th {
+        background: #f8fafc;
+        padding: 10px 14px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        text-align: right;
+        border-bottom: 1.5px solid var(--border);
+        white-space: nowrap;
+      }
+      tbody td {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        font-size: 13px;
+        vertical-align: middle;
+        max-width: 220px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+      tbody tr:hover {
+        background: #fafbfc;
+      }
+      .doc-id {
+        font-family: monospace;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .type-badge {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .type-mentor {
+        background: #e8eefa;
+        color: #1a3a6a;
+      }
+      .type-university {
+        background: var(--green-light);
+        color: var(--green);
+      }
+      .type-secondary {
+        background: #fff8e7;
+        color: #8a6500;
+      }
+      .type-student {
+        background: var(--green-light);
+        color: var(--green);
+      }
+      .status-pending {
+        background: #fff8e7;
+        color: #a07000;
+      }
+      .status-approved {
+        background: #e8f5ee;
+        color: #1a5e35;
+      }
+      .status-rejected {
+        background: #fff0f0;
+        color: #c03030;
+      }
+      .actions {
+        display: flex;
+        gap: 6px;
+        white-space: nowrap;
+      }
+      .empty {
+        text-align: center;
+        padding: 48px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--border);
+        border-top-color: var(--green);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        margin: 48px auto;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .pagination {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        justify-content: center;
+      }
+      .page-btn {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 5px 13px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .page-btn:hover {
+        background: var(--bg);
+      }
+      .page-btn.active {
+        background: var(--green);
+        color: #fff;
+        border-color: var(--green);
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal-box {
+        background: var(--surface);
+        border-radius: 14px;
+        padding: 28px;
+        width: 100%;
+        max-width: 560px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+      }
+      .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        color: var(--text);
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+      }
+      .field-row {
+        margin-bottom: 14px;
+      }
+      .field-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .field-input {
+        width: 100%;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 13px;
+        outline: none;
+        font-family: inherit;
+      }
+      .field-input:focus {
+        border-color: var(--green);
+      }
+      .field-input[readonly] {
+        background: #f8fafc;
+        color: var(--muted);
+        cursor: default;
+      }
+      .modal-footer {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 20px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+      .confirm-text {
+        font-size: 14px;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      .confirm-text strong {
+        color: var(--danger);
+        font-weight: 700;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1a2332;
+        color: #fff;
+        padding: 10px 24px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login -->
+    <div id="loginScreen">
+      <div class="login-box">
+        <h1>لوحة الإدارة</h1>
+        <p>منصة مدد — للمشرفين فقط</p>
+        <input
+          type="password"
+          id="adminPass"
+          placeholder="كلمة المرور"
+          onkeydown="if (event.key === 'Enter') doLogin();"
+        />
+        <button onclick="doLogin()">دخول</button>
+        <div class="login-err" id="loginErr"></div>
+      </div>
+    </div>
+
+    <!-- Admin App -->
+    <div id="adminApp">
+      <div class="topbar">
+        <h1>لوحة الإدارة — مدد</h1>
+        <button class="logout" onclick="doLogout()">خروج</button>
+      </div>
+      <div class="main">
+        <div class="sidebar">
+          <h3>المجموعات</h3>
+          <div
+            class="nav-item active"
+            onclick="loadCollection('users', this)"
+            data-col="users"
+          >
+            المستخدمون <span class="cnt" id="cnt-users">...</span>
+          </div>
+          <div
+            class="nav-item"
+            onclick="loadCollection('messages', this)"
+            data-col="messages"
+          >
+            الرسائل <span class="cnt" id="cnt-messages">...</span>
+          </div>
+          <div
+            class="nav-item"
+            onclick="loadCollection('communityPosts', this)"
+            data-col="communityPosts"
+          >
+            المنشورات <span class="cnt" id="cnt-communityPosts">...</span>
+          </div>
+          <h3 style="margin-top: 20px">إجراءات</h3>
+          <div class="nav-item" onclick="exportData()">تصدير JSON</div>
+        </div>
+
+        <div class="content">
+          <div class="stats-row" id="statsRow"></div>
+          <div id="tableArea"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-box">
+        <div class="modal-title">تعديل المستند</div>
+        <div id="editFields"></div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="closeModal('editModal')">
+            إلغاء
+          </button>
+          <button class="btn btn-primary" onclick="saveEdit()">حفظ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Modal -->
+    <div class="modal-overlay" id="viewModal">
+      <div class="modal-box">
+        <div class="modal-title">تفاصيل المستند</div>
+        <pre
+          id="viewContent"
+          style="
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 12px;
+            overflow: auto;
+            max-height: 55vh;
+            white-space: pre-wrap;
+            word-break: break-all;
+            direction: ltr;
+            line-height: 1.6;
+          "
+        ></pre>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="closeModal('viewModal')">
+            إغلاق
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirm -->
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal-box" style="max-width: 400px">
+        <div class="modal-title">تأكيد الحذف</div>
+        <div class="confirm-text">
+          هل أنت متأكد من حذف هذا المستند؟<br />
+          <strong>لا يمكن التراجع عن هذا الإجراء.</strong>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="closeModal('deleteModal')">
+            إلغاء
+          </button>
+          <button class="btn btn-danger" onclick="confirmDelete()">حذف</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script type="module">
+      import {
+        initializeApp,
+        getApps,
+        getApp,
+      } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        doc,
+        updateDoc,
+        deleteDoc,
+      } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+      const ADMIN_PASS = "madd@admin2025";
+      const COLLECTIONS = ["users", "messages", "communityPosts"];
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA2qF0Y98iwxUT95_T-cjSco-u8mwd4qI0",
+        authDomain: "madd-platform.firebaseapp.com",
+        projectId: "madd-platform",
+        storageBucket: "madd-platform.firebasestorage.app",
+        messagingSenderId: "75327822904",
+        appId: "1:75327822904:web:1d093b1d15072704669acd",
+      };
+
+      const app =
+        getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+      const db = getFirestore(app);
+
+      let _currentCol = "users";
+      let _allDocs = [];
+      let _filteredDocs = [];
+      let _page = 0;
+      const PAGE_SIZE = 25;
+      let _editDocId = null;
+      let _editDocData = null;
+      let _deleteDocId = null;
+      let _deleteColName = null;
+
+      // Login
+      window.doLogin = function () {
+        const pass = document.getElementById("adminPass").value;
+        if (pass === ADMIN_PASS) {
+          document.getElementById("loginScreen").style.display = "none";
+          document.getElementById("adminApp").style.display = "flex";
+          initAdmin();
+        } else {
+          document.getElementById("loginErr").textContent =
+            "كلمة المرور غير صحيحة";
+        }
+      };
+
+      window.doLogout = function () {
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("adminApp").style.display = "none";
+        document.getElementById("adminPass").value = "";
+      };
+
+      async function initAdmin() {
+        await loadCounts();
+        await loadCollection("users", document.querySelector(".nav-item"));
+      }
+
+      async function loadCounts() {
+        for (const col of COLLECTIONS) {
+          try {
+            const snap = await getDocs(collection(db, col));
+            const el = document.getElementById("cnt-" + col);
+            if (el) el.textContent = snap.size;
+          } catch (e) {}
+        }
+        renderStats();
+      }
+
+      function renderStats() {
+        const row = document.getElementById("statsRow");
+        if (!row) return;
+        const get = (id) =>
+          parseInt(document.getElementById("cnt-" + id)?.textContent || "0") ||
+          0;
+        row.innerHTML = `
+    <div class="stat-card"><div class="stat-val">${get("users")}</div><div class="stat-lbl">المستخدمون</div></div>
+    <div class="stat-card"><div class="stat-val">${get("messages")}</div><div class="stat-lbl">الرسائل</div></div>
+    <div class="stat-card"><div class="stat-val">${get("communityPosts")}</div><div class="stat-lbl">المنشورات</div></div>
+  `;
+      }
+
+      window.loadCollection = async function (colName, navEl) {
+        _currentCol = colName;
+        _page = 0;
+        document
+          .querySelectorAll(".nav-item[data-col]")
+          .forEach((n) => n.classList.remove("active"));
+        if (navEl?.dataset?.col) navEl.classList.add("active");
+        document.getElementById("tableArea").innerHTML =
+          '<div class="spinner"></div>';
+        try {
+          const snap = await getDocs(collection(db, colName));
+          _allDocs = snap.docs.map((d) => ({ _id: d.id, ...d.data() }));
+          _filteredDocs = [..._allDocs];
+          const cnt = document.getElementById("cnt-" + colName);
+          if (cnt) cnt.textContent = _allDocs.length;
+          renderTable();
+        } catch (e) {
+          document.getElementById("tableArea").innerHTML =
+            `<div class="empty" style="color:var(--danger);">خطأ في تحميل البيانات: ${escHtml(e.message)}</div>`;
+        }
+      };
+
+      function renderTable() {
+        const start = _page * PAGE_SIZE;
+        const pageDocs = _filteredDocs.slice(start, start + PAGE_SIZE);
+        const totalPages = Math.ceil(_filteredDocs.length / PAGE_SIZE);
+        const cols = getColumns(_currentCol);
+
+        let html = `
+    <div class="toolbar">
+      <h2>${colLabel(_currentCol)} (${_filteredDocs.length})</h2>
+      <input class="search-box" placeholder="بحث في جميع الحقول..." oninput="doSearch(this.value)" id="searchBox"/>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>المعرّف</th>
+        ${cols.map((c) => `<th>${c.label}</th>`).join("")}
+        <th>الإجراءات</th>
+      </tr></thead>
+      <tbody>
+  `;
+
+        if (!pageDocs.length) {
+          html += `<tr><td colspan="${cols.length + 2}" class="empty">لا توجد نتائج</td></tr>`;
+        } else {
+          pageDocs.forEach((d) => {
+            html += `<tr>
+        <td class="doc-id" title="${escHtml(d._id)}">${d._id.slice(0, 10)}…</td>
+        ${cols.map((c) => `<td title="${escHtml(String(d[c.key] || ""))}">${renderCell(c, d)}</td>`).join("")}
+        <td class="actions">
+          <button class="btn btn-ghost btn-sm" onclick="viewDoc('${escHtml(d._id)}')">عرض</button>
+          <button class="btn btn-ghost btn-sm" onclick="editDoc('${escHtml(d._id)}')">تعديل</button>
+          <button class="btn-sm-danger" onclick="deleteDocPrompt('${escHtml(d._id)}')">حذف</button>
+        </td>
+      </tr>`;
+          });
+        }
+
+        html += `</tbody></table></div>`;
+
+        if (totalPages > 1) {
+          html += `<div class="pagination">`;
+          if (_page > 0)
+            html += `<button class="page-btn" onclick="goPage(${_page - 1})">السابق</button>`;
+          for (let i = 0; i < totalPages; i++) {
+            if (i === _page || Math.abs(i - _page) <= 2) {
+              html += `<button class="page-btn ${i === _page ? "active" : ""}" onclick="goPage(${i})">${i + 1}</button>`;
+            } else if (Math.abs(i - _page) === 3) {
+              html += `<span style="color:var(--muted);padding:0 4px;">...</span>`;
+            }
+          }
+          if (_page < totalPages - 1)
+            html += `<button class="page-btn" onclick="goPage(${_page + 1})">التالي</button>`;
+          html += `</div>`;
+        }
+
+        document.getElementById("tableArea").innerHTML = html;
+      }
+
+      function colLabel(col) {
+        return (
+          {
+            users: "المستخدمون",
+            messages: "الرسائل",
+            communityPosts: "المنشورات",
+          }[col] || col
+        );
+      }
+
+      function getColumns(col) {
+        if (col === "users")
+          return [
+            { key: "name", label: "الاسم" },
+            { key: "email", label: "البريد" },
+            { key: "type", label: "النوع" },
+            { key: "city", label: "المدينة" },
+            { key: "phone", label: "الجوال" },
+            { key: "registeredAt", label: "تاريخ التسجيل" },
+          ];
+        if (col === "messages")
+          return [
+            { key: "fromName", label: "المرسل" },
+            { key: "toName", label: "المستلم" },
+            { key: "msgType", label: "نوع الرسالة" },
+            { key: "status", label: "الحالة" },
+            { key: "text", label: "النص" },
+            { key: "createdAt", label: "التاريخ" },
+          ];
+        if (col === "communityPosts")
+          return [
+            { key: "author", label: "الكاتب" },
+            { key: "type", label: "النوع" },
+            { key: "city", label: "المدينة" },
+            { key: "text", label: "النص" },
+            { key: "time", label: "الوقت" },
+          ];
+        return Object.keys(_allDocs[0] || {})
+          .filter((k) => k !== "_id")
+          .slice(0, 5)
+          .map((k) => ({ key: k, label: k }));
+      }
+
+      function renderCell(col, d) {
+        const val = d[col.key];
+        if (val === undefined || val === null || val === "")
+          return '<span style="color:var(--border)">—</span>';
+        if (col.key === "type") {
+          const label =
+            {
+              mentor: "مرشد",
+              university: "جامعي",
+              secondary: "ثانوي",
+              student: "طالب",
+            }[val] || val;
+          return `<span class="type-badge type-${escHtml(val)}">${escHtml(label)}</span>`;
+        }
+        if (col.key === "msgType") {
+          const label =
+            {
+              guidance_request: "طلب إرشاد",
+              reply_request: "طلب رد",
+              chat: "رسالة",
+              approval: "قبول",
+            }[val] || val;
+          return `<span class="type-badge" style="background:#f0f0f0;color:#444;">${escHtml(label)}</span>`;
+        }
+        if (col.key === "status") {
+          const label =
+            { pending: "معلّق", approved: "مقبول", rejected: "مرفوض" }[val] ||
+            val;
+          return `<span class="type-badge status-${escHtml(val)}">${escHtml(label)}</span>`;
+        }
+        if (col.key === "registeredAt" || col.key === "time") {
+          try {
+            return new Date(
+              val?.toDate ? val.toDate() : val,
+            ).toLocaleDateString("ar-SA", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            });
+          } catch {
+            return String(val).slice(0, 16);
+          }
+        }
+        if (col.key === "createdAt") {
+          try {
+            return (
+              val?.toDate ? val.toDate() : new Date(val)
+            ).toLocaleDateString("ar-SA", { month: "short", day: "numeric" });
+          } catch {
+            return "—";
+          }
+        }
+        const str = String(val);
+        return escHtml(str.length > 42 ? str.slice(0, 42) + "…" : str);
+      }
+
+      window.doSearch = function (q) {
+        const lower = q.toLowerCase();
+        _filteredDocs = lower
+          ? _allDocs.filter((d) =>
+              Object.values(d).some((v) =>
+                String(v || "")
+                  .toLowerCase()
+                  .includes(lower),
+              ),
+            )
+          : [..._allDocs];
+        _page = 0;
+        renderTable();
+        const box = document.getElementById("searchBox");
+        if (box) {
+          box.value = q;
+          box.focus();
+        }
+      };
+
+      window.goPage = function (p) {
+        _page = p;
+        renderTable();
+        window.scrollTo(0, 0);
+      };
+
+      window.viewDoc = function (id) {
+        const d = _allDocs.find((x) => x._id === id);
+        if (!d) return;
+        const display = {};
+        Object.entries(d).forEach(([k, v]) => {
+          display[k] = v?.toDate ? v.toDate().toISOString() : v;
+        });
+        document.getElementById("viewContent").textContent = JSON.stringify(
+          display,
+          null,
+          2,
+        );
+        document.getElementById("viewModal").classList.add("show");
+      };
+
+      window.editDoc = function (id) {
+        const d = _allDocs.find((x) => x._id === id);
+        if (!d) return;
+        _editDocId = id;
+        _editDocData = { ...d };
+
+        const EDITABLE = {
+          users: [
+            "name",
+            "email",
+            "phone",
+            "city",
+            "region",
+            "type",
+            "specialization",
+            "university",
+            "school",
+            "uniGpa",
+          ],
+          messages: ["status", "read", "text", "message"],
+          communityPosts: ["text", "brief", "answered", "city"],
+        };
+        const editableKeys = EDITABLE[_currentCol] || [];
+
+        let html = `<div class="field-row"><div class="field-label">المعرّف</div><input class="field-input" value="${escHtml(id)}" readonly/></div>`;
+
+        editableKeys.forEach((key) => {
+          const val = d[key];
+          if (val === undefined) return;
+          const display = val?.toDate
+            ? val.toDate().toISOString()
+            : val === null
+              ? ""
+              : String(val);
+          html += `<div class="field-row">
+      <div class="field-label">${escHtml(key)}</div>
+      <input class="field-input" id="ef_${escHtml(key)}" value="${escHtml(display)}"/>
+    </div>`;
+        });
+
+        const roKeys = Object.keys(d).filter(
+          (k) => k !== "_id" && !editableKeys.includes(k),
+        );
+        if (roKeys.length) {
+          html += `<details style="margin-top:8px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);padding:6px 0;user-select:none;">حقول إضافية (للقراءة فقط)</summary>`;
+          roKeys.forEach((key) => {
+            const val = d[key];
+            const display = val?.toDate
+              ? val.toDate().toISOString()
+              : val === null
+                ? ""
+                : typeof val === "object"
+                  ? JSON.stringify(val)
+                  : String(val);
+            html += `<div class="field-row"><div class="field-label">${escHtml(key)}</div><input class="field-input" value="${escHtml(display)}" readonly/></div>`;
+          });
+          html += "</details>";
+        }
+
+        document.getElementById("editFields").innerHTML = html;
+        document.getElementById("editModal").classList.add("show");
+      };
+
+      window.saveEdit = async function () {
+        if (!_editDocId) return;
+        const EDITABLE = {
+          users: [
+            "name",
+            "email",
+            "phone",
+            "city",
+            "region",
+            "type",
+            "specialization",
+            "university",
+            "school",
+            "uniGpa",
+          ],
+          messages: ["status", "read", "text", "message"],
+          communityPosts: ["text", "brief", "answered", "city"],
+        };
+        const updates = {};
+        (EDITABLE[_currentCol] || []).forEach((key) => {
+          const el = document.getElementById("ef_" + key);
+          if (!el) return;
+          const orig = _editDocData[key];
+          let val = el.value;
+          if (typeof orig === "boolean") val = val === "true";
+          else if (typeof orig === "number") val = Number(val) || orig;
+          updates[key] = val;
+        });
+        try {
+          await updateDoc(doc(db, _currentCol, _editDocId), updates);
+          const idx = _allDocs.findIndex((x) => x._id === _editDocId);
+          if (idx !== -1) Object.assign(_allDocs[idx], updates);
+          _filteredDocs = [..._allDocs];
+          closeModal("editModal");
+          renderTable();
+          showToast("تم حفظ التعديلات");
+        } catch (e) {
+          showToast("خطأ: " + e.message);
+        }
+      };
+
+      window.deleteDocPrompt = function (id) {
+        _deleteDocId = id;
+        _deleteColName = _currentCol;
+        document.getElementById("deleteModal").classList.add("show");
+      };
+
+      window.confirmDelete = async function () {
+        if (!_deleteDocId) return;
+        try {
+          await deleteDoc(doc(db, _deleteColName, _deleteDocId));
+          _allDocs = _allDocs.filter((x) => x._id !== _deleteDocId);
+          _filteredDocs = _filteredDocs.filter((x) => x._id !== _deleteDocId);
+          const cnt = document.getElementById("cnt-" + _deleteColName);
+          if (cnt) cnt.textContent = _allDocs.length;
+          closeModal("deleteModal");
+          renderTable();
+          showToast("تم حذف المستند");
+        } catch (e) {
+          showToast("خطأ: " + e.message);
+        }
+      };
+
+      window.exportData = async function () {
+        showToast("جاري تصدير البيانات...");
+        const result = {};
+        for (const col of COLLECTIONS) {
+          try {
+            const snap = await getDocs(collection(db, col));
+            result[col] = snap.docs.map((d) => {
+              const data = {};
+              Object.entries(d.data()).forEach(([k, v]) => {
+                data[k] = v?.toDate ? v.toDate().toISOString() : v;
+              });
+              return { _id: d.id, ...data };
+            });
+          } catch (e) {
+            result[col] = [];
+          }
+        }
+        const blob = new Blob([JSON.stringify(result, null, 2)], {
+          type: "application/json",
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `madd-export-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        showToast("تم التصدير");
+      };
+
+      window.closeModal = function (id) {
+        document.getElementById(id)?.classList.remove("show");
+      };
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2800);
+      }
+
+      function escHtml(v = "") {
+        return String(v)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      document.querySelectorAll(".modal-overlay").forEach((m) => {
+        m.addEventListener("click", (e) => {
+          if (e.target === m) m.classList.remove("show");
+        });
+      });
+    </script>
+  </body>
+</html>

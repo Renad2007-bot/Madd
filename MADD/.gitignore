@@ -1,0 +1,22 @@
+serviceAccountKey.json
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.vscode/
+
+*.joblib
+*.safetensors
+*.part
+*.crdownload
+*.zip
+
+# ملفات النماذج المدرَّبة الكبيرة — لا تُرفع للريبو
+backend/models/major_model.pkl
+backend/models/scaler.pkl
+backend/models/target_encoder.pkl
+backend/models/feature_encoders.pkl
+backend/models/arabert_offensive_model/model.safetensors
+backend/models/arabert_offensive_model/vocab.txt
+# arabic_classifier.pkl مسموح به (452KB فقط)

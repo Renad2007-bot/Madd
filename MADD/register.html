@@ -1,0 +1,2537 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مدد – إنشاء حساب</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      /* ══ LAYOUT ══ */
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        display: flex;
+      }
+      .reg-layout {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+      }
+
+      /* ══ BRAND PANEL ══ */
+      .reg-brand {
+        width: 400px;
+        flex-shrink: 0;
+        background: linear-gradient(
+          160deg,
+          #0a2014 0%,
+          #1a4a2e 55%,
+          #2d6a4a 100%
+        );
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 40px 40px 36px;
+        overflow: hidden;
+      }
+      .reg-brand::before {
+        content: "";
+        position: absolute;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(201, 168, 76, 0.1),
+          transparent 70%
+        );
+        top: -100px;
+        left: -100px;
+        pointer-events: none;
+      }
+      .reg-brand::after {
+        content: "";
+        position: absolute;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.04),
+          transparent 70%
+        );
+        bottom: 60px;
+        right: -60px;
+        pointer-events: none;
+      }
+      /* decorative dots */
+      .brand-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.05) 1px,
+          transparent 1px
+        );
+        background-size: 24px 24px;
+        pointer-events: none;
+      }
+
+      .brand-top {
+        position: relative;
+        z-index: 1;
+        margin-bottom: auto;
+      }
+      .brand-logo-link {
+        display: inline-block;
+        margin-bottom: 56px;
+      }
+      .brand-logo-link img {
+        height: 36px;
+        filter: brightness(0) invert(1);
+      }
+
+      .brand-context {
+        transition: all 0.4s;
+      }
+      .brand-tag {
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(201, 168, 76, 0.85);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .brand-tag::before {
+        content: "";
+        width: 20px;
+        height: 2px;
+        background: rgba(201, 168, 76, 0.6);
+        border-radius: 2px;
+      }
+      .brand-h {
+        font-size: 26px;
+        font-weight: 800;
+        color: white;
+        font-family: "Cairo", sans-serif;
+        line-height: 1.25;
+        margin-bottom: 14px;
+      }
+      .brand-p {
+        font-size: 13.5px;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.85;
+        margin-bottom: 32px;
+      }
+
+      .brand-items {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .brand-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .brand-item-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .brand-item-icon svg {
+        width: 20px;
+        height: 20px;
+        color: rgba(201, 168, 76, 0.9);
+      }
+      .brand-item-text {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .brand-item-text strong {
+        color: white;
+        display: block;
+        font-size: 13.5px;
+        margin-bottom: 1px;
+      }
+
+      .brand-foot {
+        position: relative;
+        z-index: 1;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.45);
+        padding-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .brand-foot a {
+        color: var(--gold);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .brand-foot a:hover {
+        text-decoration: underline;
+      }
+
+      /* ══ FORM SIDE ══ */
+      .reg-form-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        background: var(--bg);
+      }
+
+      .reg-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 52px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+      .rtb-back {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .rtb-back:hover {
+        color: var(--green-dark);
+      }
+      .rtb-back svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* ══ STEPS TRACK ══ */
+      .steps-track {
+        display: flex;
+        align-items: center;
+        gap: 0;
+      }
+      .st-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .st-num {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-muted);
+        flex-shrink: 0;
+        transition: all 0.3s;
+      }
+      .st-num.active {
+        background: var(--green-dark);
+        color: white;
+        border-color: var(--green-dark);
+      }
+      .st-num.done {
+        background: var(--green-main);
+        color: white;
+        border-color: var(--green-main);
+      }
+      .st-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-muted);
+        white-space: nowrap;
+      }
+      .st-label.active {
+        color: var(--green-dark);
+        font-weight: 700;
+      }
+      .st-label.done {
+        color: var(--green-main);
+      }
+      .st-line {
+        width: 28px;
+        height: 2px;
+        background: var(--border);
+        margin: 0 2px;
+        transition: background 0.3s;
+        flex-shrink: 0;
+      }
+      .st-line.done {
+        background: var(--green-main);
+      }
+
+      .reg-content {
+        flex: 1;
+        padding: 48px 52px;
+        max-width: 580px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      /* ══ STEP HEADER ══ */
+      .step-head {
+        margin-bottom: 36px;
+      }
+      .step-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--green-main);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .step-tag::before {
+        content: "";
+        width: 16px;
+        height: 2px;
+        background: var(--green-main);
+        border-radius: 2px;
+      }
+      .step-h {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--text-dark);
+        font-family: "Cairo", sans-serif;
+        margin-bottom: 5px;
+      }
+      .step-sub {
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+
+      /* ══ TYPE CARDS ══ */
+      .type-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 8px;
+      }
+      .type-card-r {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 20px 22px;
+        border: 2px solid var(--border);
+        border-radius: 18px;
+        cursor: pointer;
+        transition: all 0.22s;
+        background: var(--surface);
+        position: relative;
+        overflow: hidden;
+      }
+      .type-card-r::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.22s;
+        border-radius: 16px;
+      }
+      .type-card-r:hover {
+        transform: translateX(-4px);
+      }
+      .t-sec:hover {
+        border-color: rgba(45, 106, 74, 0.35);
+      }
+      .t-sec::after {
+        background: linear-gradient(
+          135deg,
+          rgba(45, 106, 74, 0.06),
+          transparent 70%
+        );
+      }
+      .t-uni:hover {
+        border-color: rgba(179, 92, 0, 0.35);
+      }
+      .t-uni::after {
+        background: linear-gradient(
+          135deg,
+          rgba(201, 168, 76, 0.08),
+          transparent 70%
+        );
+      }
+      .t-men:hover {
+        border-color: rgba(26, 58, 106, 0.35);
+      }
+      .t-men::after {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 58, 106, 0.06),
+          transparent 70%
+        );
+      }
+
+      .type-card-r.selected {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      .type-card-r.selected::after {
+        opacity: 1;
+      }
+      .t-sec.selected {
+        border-color: var(--green-dark);
+      }
+      .t-uni.selected {
+        border-color: var(--gold-dark);
+      }
+      .t-men.selected {
+        border-color: #1a3a6a;
+      }
+
+      .tc-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+      }
+      .tc-icon svg {
+        width: 26px;
+        height: 26px;
+      }
+      .tic-s {
+        background: var(--green-light);
+        color: var(--green-dark);
+      }
+      .tic-u {
+        background: var(--gold-light);
+        color: var(--gold-dark);
+      }
+      .tic-m {
+        background: #e8edf5;
+        color: #1a3a6a;
+      }
+
+      .tc-body {
+        flex: 1;
+        position: relative;
+        z-index: 1;
+      }
+      .tc-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 3px;
+      }
+      .tc-desc {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      .tc-radio {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.22s;
+        position: relative;
+        z-index: 1;
+      }
+      .t-sec.selected .tc-radio {
+        background: var(--green-dark);
+        border-color: var(--green-dark);
+      }
+      .t-uni.selected .tc-radio {
+        background: var(--gold-dark);
+        border-color: var(--gold-dark);
+      }
+      .t-men.selected .tc-radio {
+        background: #1a3a6a;
+        border-color: #1a3a6a;
+      }
+      .tc-radio svg {
+        width: 12px;
+        height: 12px;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .type-card-r.selected .tc-radio svg {
+        opacity: 1;
+      }
+
+      /* ══ GRADE GRID ══ */
+      .grade-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+      .grade-btn {
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        padding: 18px 14px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.22s;
+        background: var(--surface);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+      .grade-btn:hover {
+        border-color: var(--green-main);
+        background: var(--green-light);
+        color: var(--green-dark);
+      }
+      .grade-btn.selected {
+        background: var(--green-dark);
+        color: white;
+        border-color: var(--green-dark);
+        box-shadow: 0 4px 16px rgba(26, 74, 46, 0.2);
+      }
+
+      /* ══ FORM SECTION DIVIDER ══ */
+      .fsec {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 24px 0 16px;
+      }
+      .fsec::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* ══ UPLOAD ZONE ══ */
+      .upload-new {
+        border: 2px dashed rgba(179, 136, 40, 0.4);
+        border-radius: 16px;
+        padding: 32px 20px;
+        text-align: center;
+        cursor: pointer;
+        background: linear-gradient(
+          135deg,
+          rgba(201, 168, 76, 0.04),
+          rgba(201, 168, 76, 0.01)
+        );
+        transition: all 0.2s;
+      }
+      .upload-new:hover {
+        border-color: var(--gold);
+        background: rgba(201, 168, 76, 0.07);
+      }
+      .upload-new.done {
+        border-color: var(--green-main);
+        background: rgba(45, 106, 74, 0.06);
+      }
+      .upload-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: rgba(201, 168, 76, 0.12);
+        color: var(--gold-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 14px;
+      }
+      .upload-icon svg {
+        width: 26px;
+        height: 26px;
+      }
+      .upload-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 5px;
+      }
+      .upload-hint {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      /* ══ EDU LEVEL ══ */
+      .edu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .edu-btn {
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 8px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-mid);
+        transition: all 0.2s;
+        background: var(--surface);
+      }
+      .edu-btn:hover {
+        border-color: var(--green-main);
+        color: var(--green-dark);
+      }
+      .edu-btn.selected {
+        background: var(--green-dark);
+        color: white;
+        border-color: var(--green-dark);
+      }
+
+      /* ══ INTEREST TAGS ══ */
+      .int-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .int-chip {
+        padding: 8px 16px;
+        border-radius: 50px;
+        border: 1.5px solid var(--border);
+        background: var(--surface);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-dark);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .int-chip:hover {
+        border-color: var(--green-main);
+        color: var(--green-dark);
+        background: var(--green-light);
+      }
+      .int-chip.active {
+        background: var(--green-dark);
+        color: white;
+        border-color: var(--green-dark);
+      }
+
+      /* ══ FAV TAGS ══ */
+      .fav-tag {
+        padding: 7px 14px;
+        border-radius: 20px;
+        border: 1.5px solid var(--border);
+        background: var(--surface);
+        font-size: 13px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+      .fav-tag.active {
+        background: var(--green-dark);
+        color: white;
+        border-color: var(--green-dark);
+      }
+
+      /* ══ STEP NAV ══ */
+      .step-nav {
+        display: flex;
+        gap: 12px;
+        margin-top: 36px;
+        padding-top: 28px;
+        border-top: 1px solid var(--border);
+      }
+      .btn-back-step {
+        padding: 14px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        color: var(--text-mid);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+      }
+      .btn-back-step:hover {
+        border-color: var(--text-mid);
+        color: var(--text-dark);
+      }
+      .btn-next-step {
+        flex: 1;
+        padding: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--green-dark),
+          var(--green-main)
+        );
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 18px rgba(26, 74, 46, 0.22);
+        transition: all 0.25s;
+      }
+      .btn-next-step:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(26, 74, 46, 0.3);
+      }
+      .btn-next-step.gold-btn {
+        background: linear-gradient(135deg, #7a4500, #c97000);
+      }
+      .btn-finish {
+        flex: 1;
+        padding: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--green-dark),
+          var(--green-main)
+        );
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 18px rgba(26, 74, 46, 0.22);
+        transition: all 0.25s;
+      }
+      .btn-finish:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(26, 74, 46, 0.3);
+      }
+
+      /* ══ PASS STRENGTH ══ */
+      .pass-strength {
+        display: flex;
+        gap: 4px;
+        margin-top: 7px;
+      }
+      .pass-strength span {
+        flex: 1;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--border);
+        transition: all 0.3s;
+      }
+      .pass-strength span.weak {
+        background: #e53935;
+      }
+      .pass-strength span.medium {
+        background: #f9a825;
+      }
+      .pass-strength span.strong {
+        background: #2e7d32;
+      }
+      .pass-hint {
+        font-size: 12px;
+        margin-top: 5px;
+        min-height: 18px;
+        transition: all 0.2s;
+      }
+      .pass-hint.err {
+        color: #d32f2f;
+      }
+      .pass-hint.ok {
+        color: #2e7d32;
+      }
+
+      .password-wrap {
+        position: relative;
+      }
+      .password-wrap input {
+        width: 100%;
+        padding-left: 40px;
+      }
+      .toggle-pass {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        color: var(--text-muted);
+        opacity: 0.5;
+        transition: opacity 0.2s;
+      }
+      .toggle-pass:hover {
+        opacity: 1;
+      }
+      .toggle-pass svg {
+        width: 17px;
+        height: 17px;
+      }
+
+      /* ══ STATES ══ */
+      .form-input.is-error {
+        border-color: #d32f2f !important;
+        box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+      }
+      .form-input.is-valid {
+        border-color: var(--green-main) !important;
+        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.08);
+      }
+
+      /* ══ SUBJECT ROWS ══ */
+      .subject-row {
+        display: grid;
+        grid-template-columns: 1fr 90px auto;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .subj-inp {
+        padding: 8px 12px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-family: "Cairo", sans-serif;
+        font-size: 13px;
+        outline: none;
+        width: 100%;
+        background: var(--surface);
+      }
+      .subj-inp:focus {
+        border-color: var(--green-main);
+      }
+
+      /* ══ OCR RESULT ══ */
+      .ocr-result {
+        display: none;
+        background: var(--green-light);
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--green-dark);
+        border-right: 3px solid var(--green-main);
+      }
+      .ocr-result.show {
+        display: block;
+      }
+
+      /* ══ STEP PANELS ══ */
+      .step-panel {
+        display: none;
+      }
+      .step-panel.active {
+        display: block;
+        animation: stepIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes stepIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ══ INFO BOX ══ */
+      .info-box {
+        background: var(--gold-light);
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-bottom: 16px;
+        font-size: 13px;
+        color: var(--gold-dark);
+        border-right: 3px solid var(--gold);
+        line-height: 1.7;
+      }
+
+      /* ══ RESPONSIVE ══ */
+      @media (max-width: 900px) {
+        .reg-brand {
+          display: none;
+        }
+        .reg-content {
+          padding: 32px 20px;
+        }
+        .reg-top-bar {
+          padding: 14px 20px;
+        }
+      }
+      @media (max-width: 600px) {
+        .steps-track .st-label {
+          display: none;
+        }
+        .type-card-r {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reg-layout">
+      <!-- ══════════ BRAND PANEL ══════════ -->
+      <aside class="reg-brand">
+        <div class="brand-dots"></div>
+        <div class="brand-top">
+          <a href="index.html" class="brand-logo-link">
+            <img src="images/logo.png" alt="مدد" />
+          </a>
+
+          <div class="brand-context" id="brandContext">
+            <div class="brand-tag">ابدأ رحلتك</div>
+            <div class="brand-h">حساب واحد،<br />إمكانيات لا حدود لها</div>
+            <p class="brand-p">
+              انضم إلى مدد واحصل على تجربة أكاديمية ذكية مصمّمة خصيصاً لك.
+            </p>
+            <div class="brand-items">
+              <div class="brand-item">
+                <div class="brand-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="6" />
+                    <circle cx="12" cy="12" r="2" />
+                  </svg>
+                </div>
+                <div class="brand-item-text">
+                  <strong>توقع التخصص الجامعي</strong>
+                  مبني على درجاتك واهتماماتك الفعلية
+                </div>
+              </div>
+              <div class="brand-item">
+                <div class="brand-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+                <div class="brand-item-text">
+                  <strong>مجتمع تعليمي حقيقي</strong>
+                  مرشدون وطلاب
+                </div>
+              </div>
+              <div class="brand-item">
+                <div class="brand-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </div>
+                <div class="brand-item-text">
+                  <strong>بياناتك محمية بالكامل</strong>
+                  تشفير كامل وخصوصية مضمونة
+                </div>
+              </div>
+              <div class="brand-item">
+                <div class="brand-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <div class="brand-item-text">
+                  <strong>مجاني تماماً</strong>
+                  بدون رسوم أو اشتراكات مخفية
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-foot">
+          عندك حساب؟ <a href="login.html">سجّل دخول</a>
+        </div>
+      </aside>
+
+      <!-- ══════════ FORM SIDE ══════════ -->
+      <div class="reg-form-side">
+        <!-- TOP BAR -->
+        <div class="reg-top-bar">
+          <a href="index.html" class="rtb-back">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+            رجوع للرئيسية
+          </a>
+
+          <div class="steps-track" id="stepsBar"></div>
+
+          <div style="width: 110px"></div>
+        </div>
+
+        <!-- FORM CONTENT -->
+        <div class="reg-content">
+          <!-- ══ STEP 0: نوع الحساب ══ -->
+          <div class="step-panel active" id="step0">
+            <div class="step-head">
+              <div class="step-tag">الخطوة الأولى</div>
+              <div class="step-h">ما نوع حسابك؟</div>
+              <div class="step-sub">
+                اختر الفئة التي تنتمي إليها لنخصّص تجربتك
+              </div>
+            </div>
+
+            <div class="type-list">
+              <div
+                class="type-card-r t-sec"
+                onclick="selectType('secondary', this)"
+              >
+                <div class="tc-icon tic-s">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                  </svg>
+                </div>
+                <div class="tc-body">
+                  <div class="tc-name">طالب ثانوي</div>
+                  <div class="tc-desc">
+                    من الثالث متوسط حتى الثالث ثانوي — تتبع درجاتك وتوقع تخصصك
+                  </div>
+                </div>
+                <div class="tc-radio">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              </div>
+
+              <div
+                class="type-card-r t-uni"
+                onclick="selectType('university', this)"
+              >
+                <div class="tc-icon tic-u">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                  </svg>
+                </div>
+                <div class="tc-body">
+                  <div class="tc-name">طالب جامعي</div>
+                  <div class="tc-desc">
+                    بكالوريوس أو أعلى — إدارة مقرراتك ومعدلك والتحليل الذكي
+                  </div>
+                </div>
+                <div class="tc-radio">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              </div>
+
+              <div
+                class="type-card-r t-men"
+                onclick="selectType('mentor', this)"
+              >
+                <div class="tc-icon tic-m">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M6 20v-1a6 6 0 0 1 12 0v1" />
+                    <path d="M19 11l2 2-4 4" />
+                  </svg>
+                </div>
+                <div class="tc-body">
+                  <div class="tc-name">مرشد</div>
+                  <div class="tc-desc">
+                    خبير يرغب في توجيه الطلاب وتقديم الإرشاد الأكاديمي
+                  </div>
+                </div>
+                <div class="tc-radio">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button
+                class="btn-next-step"
+                style="border-radius: 12px"
+                onclick="nextStep()"
+              >
+                التالي
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 18px; height: 18px"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══ STEP 1: المرحلة الدراسية (ثانوي) ══ -->
+          <div class="step-panel" id="step1_secondary">
+            <div class="step-head">
+              <div class="step-tag">الخطوة الثانية</div>
+              <div class="step-h">ما مرحلتك الدراسية؟</div>
+              <div class="step-sub">
+                حدد صفك الدراسي الحالي لنخصّص لك المحتوى والاختبارات
+              </div>
+            </div>
+
+            <div class="grade-grid">
+              <div
+                class="grade-btn"
+                onclick="selectGrade('third_middle', this)"
+              >
+                الثالث متوسط
+              </div>
+              <div class="grade-btn" onclick="selectGrade('first_high', this)">
+                الأول ثانوي
+              </div>
+              <div class="grade-btn" onclick="selectGrade('second_high', this)">
+                الثاني ثانوي
+              </div>
+              <div class="grade-btn" onclick="selectGrade('third_high', this)">
+                الثالث ثانوي
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-back-step" onclick="prevStep()">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 16px; height: 16px"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                السابق
+              </button>
+              <button class="btn-next-step" onclick="nextStep()">
+                التالي
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 18px; height: 18px"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══ STEP 2: البيانات الشخصية ══ -->
+          <div class="step-panel" id="step2">
+            <div class="step-head">
+              <div class="step-tag">البيانات الشخصية</div>
+              <div class="step-h">أخبرنا عنك</div>
+              <div class="step-sub">
+                معلوماتك محمية ومشفّرة ولن تُشارك مع أحد
+              </div>
+            </div>
+
+            <div class="fsec">المعلومات الأساسية</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >الاسم الكامل
+                  <span style="color: var(--danger)">*</span></label
+                >
+                <input
+                  class="form-input"
+                  id="fname"
+                  placeholder="اسمك الثلاثي"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >الجنس <span style="color: var(--danger)">*</span></label
+                >
+                <select class="form-select" id="gender">
+                  <option value="">اختر...</option>
+                  <option value="male">ذكر</option>
+                  <option value="female">أنثى</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">رقم الهوية / الإقامة</label>
+                <input
+                  class="form-input"
+                  id="nid"
+                  placeholder="10 أرقام"
+                  maxlength="10"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">تاريخ الميلاد</label>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    gap: 8px;
+                  "
+                >
+                  <select class="form-select" id="birthDay">
+                    <option value="">اليوم</option>
+                  </select>
+                  <select
+                    class="form-select"
+                    id="birthMonth"
+                    onchange="updateDays()"
+                  >
+                    <option value="">الشهر</option>
+                  </select>
+                  <select
+                    class="form-select"
+                    id="birthYear"
+                    onchange="updateDays()"
+                  >
+                    <option value="">السنة</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="fsec">الموقع الجغرافي</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >المنطقة <span style="color: var(--danger)">*</span></label
+                >
+                <select
+                  class="form-select"
+                  id="region"
+                  onchange="filterCities()"
+                >
+                  <option value="">اختر المنطقة...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >المدينة <span style="color: var(--danger)">*</span></label
+                >
+                <select class="form-select" id="city">
+                  <option value="">اختر المدينة...</option>
+                </select>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-outline btn-sm"
+              onclick="detectLocation()"
+              style="
+                margin-bottom: 16px;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              تحديد موقعي تلقائياً
+            </button>
+
+            <div class="form-group" id="schoolGroup">
+              <label class="form-label">اسم المدرسة</label>
+              <input class="form-input" id="school" placeholder="اسم مدرستك" />
+            </div>
+            <div class="form-group" id="univGroup" style="display: none">
+              <label class="form-label"
+                >اسم الجامعة <span style="color: var(--danger)">*</span></label
+              >
+              <input
+                class="form-input"
+                id="university"
+                placeholder="اسم جامعتك"
+              />
+            </div>
+
+            <div class="fsec">بيانات الدخول</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >البريد الإلكتروني
+                  <span style="color: var(--danger)">*</span></label
+                >
+                <input
+                  class="form-input"
+                  id="email"
+                  type="email"
+                  placeholder="example@email.com"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم الجوال</label>
+                <input
+                  class="form-input"
+                  id="phone"
+                  placeholder="05XXXXXXXX"
+                  maxlength="10"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >كلمة المرور
+                  <span style="color: var(--danger)">*</span></label
+                >
+                <div class="password-wrap">
+                  <input
+                    class="form-input"
+                    id="password"
+                    type="password"
+                    placeholder="8 أحرف على الأقل"
+                    oninput="livePassCheck()"
+                  />
+                  <button
+                    class="toggle-pass"
+                    type="button"
+                    onclick="togglePass('password')"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="pass-strength" id="passStrengthBar">
+                  <span id="pbar1"></span><span id="pbar2"></span
+                  ><span id="pbar3"></span><span id="pbar4"></span>
+                </div>
+                <div class="pass-hint" id="passHint"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >تأكيد كلمة المرور
+                  <span style="color: var(--danger)">*</span></label
+                >
+                <div class="password-wrap">
+                  <input
+                    class="form-input"
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="أعد كتابة كلمة المرور"
+                    oninput="liveConfirmCheck()"
+                  />
+                  <button
+                    class="toggle-pass"
+                    type="button"
+                    onclick="togglePass('confirmPassword')"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="pass-hint" id="confirmHint"></div>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-back-step" onclick="prevStep()">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 16px; height: 16px"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                السابق
+              </button>
+              <button class="btn-next-step" onclick="nextStep()">
+                التالي
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 18px; height: 18px"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══ STEP 3: البيانات الدراسية ══ -->
+          <div class="step-panel" id="step3">
+            <div class="step-head">
+              <div class="step-tag">البيانات الدراسية</div>
+              <div class="step-h">ملفك الأكاديمي</div>
+              <div class="step-sub">ساعدنا لنفهم وضعك الأكاديمي بشكل أفضل</div>
+            </div>
+
+            <!-- رفع الشهادة -->
+            <div class="form-group">
+              <label class="form-label"
+                >رفع الشهادة
+                <span
+                  style="
+                    font-size: 12px;
+                    color: var(--text-muted);
+                    font-weight: 400;
+                  "
+                  >(اختياري — الذكاء الاصطناعي يستخرجها تلقائياً)</span
+                ></label
+              >
+              <div
+                class="upload-new"
+                id="uploadZone"
+                onclick="document.getElementById('certFile').click()"
+              >
+                <div class="upload-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                    />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="12" y1="12" x2="12" y2="18" />
+                    <polyline points="9 15 12 12 15 15" />
+                  </svg>
+                </div>
+                <div class="upload-title">اسحب وأفلت شهادتك هنا</div>
+                <div class="upload-hint">
+                  JPG، PNG — يقرأها الذكاء الاصطناعي تلقائياً
+                </div>
+              </div>
+              <input
+                type="file"
+                id="certFile"
+                accept="image/*,.pdf"
+                style="display: none"
+                onchange="handleCert(this)"
+              />
+              <div class="ocr-result" id="ocrResult"></div>
+            </div>
+
+            <!-- بيانات الثانوي -->
+            <div id="secManualData" style="display: none">
+              <div class="info-box">
+                عرّفنا عليك أكثر لنقدر نساعدك بشكل أفضل
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >كم كانت نسبتك في السنة الماضية؟</label
+                >
+                <input
+                  class="form-input"
+                  id="lastYearGrade"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  placeholder="مثال: 91.5"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">أي المواد تفضّل؟</label>
+                <div
+                  class="tags-wrap"
+                  id="favSubjectsTags"
+                  style="display: flex; flex-wrap: wrap; gap: 8px"
+                ></div>
+                <input
+                  class="form-input"
+                  id="favSubjectsCustom"
+                  placeholder="أو اكتب مواد أخرى مفصولة بفاصلة..."
+                  style="margin-top: 8px"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >درجاتك بالمواد
+                  <span
+                    style="
+                      font-size: 12px;
+                      color: var(--text-muted);
+                      font-weight: 400;
+                    "
+                    >(اختياري)</span
+                  ></label
+                >
+                <div
+                  id="subjectGradesTable"
+                  style="
+                    background: var(--bg);
+                    border-radius: 10px;
+                    padding: 12px;
+                    min-height: 16px;
+                  "
+                ></div>
+                <button
+                  type="button"
+                  onclick="addSubjectRow()"
+                  class="btn btn-outline btn-sm"
+                  style="margin-top: 10px"
+                >
+                  + إضافة مادة
+                </button>
+              </div>
+            </div>
+
+            <!-- بيانات الجامعي -->
+            <div id="uniManualData" style="display: none">
+              <div class="info-box">
+                هذه الحقول اختيارية تساعدنا في تحسين تجربتك
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label"
+                    >الموزونة من الثانوي
+                    <span
+                      style="
+                        font-size: 12px;
+                        color: var(--text-muted);
+                        font-weight: 400;
+                      "
+                      >(اختياري)</span
+                    ></label
+                  >
+                  <input
+                    class="form-input"
+                    id="highSchoolWazn"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    placeholder="مثال: 88.50"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label"
+                    >المعدل الجامعي الحالي
+                    <span
+                      style="
+                        font-size: 12px;
+                        color: var(--text-muted);
+                        font-weight: 400;
+                      "
+                      >(اختياري)</span
+                    ></label
+                  >
+                  <input
+                    class="form-input"
+                    id="uniGpaInput"
+                    type="number"
+                    min="0"
+                    max="5"
+                    step="0.01"
+                    placeholder="مثال: 4.25 من 5"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- التخصص -->
+            <div id="specGroup" class="form-group" style="display: none">
+              <label class="form-label"
+                >التخصص الدراسي
+                <span style="color: var(--danger)">*</span></label
+              >
+              <select class="form-select" id="specialization">
+                <option value="">اختر تخصصك...</option>
+              </select>
+              <input
+                class="form-input"
+                id="specCustom"
+                placeholder="أو اكتب تخصصك..."
+                style="margin-top: 8px"
+              />
+            </div>
+
+            <!-- مستوى التعليم للمرشد -->
+            <div id="eduLevelGroup" style="display: none">
+              <div class="form-group">
+                <label class="form-label"
+                  >مستوى تعليمك
+                  <span style="color: var(--danger)">*</span></label
+                >
+                <div class="edu-grid">
+                  <div
+                    class="edu-btn"
+                    onclick="selectEduLevel('secondary', this)"
+                  >
+                    ثانوي
+                  </div>
+                  <div
+                    class="edu-btn"
+                    onclick="selectEduLevel('diploma', this)"
+                  >
+                    دبلوم
+                  </div>
+                  <div
+                    class="edu-btn"
+                    onclick="selectEduLevel('bachelor', this)"
+                  >
+                    بكالوريوس
+                  </div>
+                  <div class="edu-btn" onclick="selectEduLevel('master', this)">
+                    ماجستير
+                  </div>
+                  <div class="edu-btn" onclick="selectEduLevel('phd', this)">
+                    دكتوراه
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-back-step" onclick="prevStep()">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 16px; height: 16px"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                السابق
+              </button>
+              <button class="btn-next-step" onclick="nextStep()">
+                التالي
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 18px; height: 18px"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══ STEP 4: الاهتمامات ══ -->
+          <div class="step-panel" id="step4">
+            <div class="step-head">
+              <div class="step-tag">الخطوة الأخيرة</div>
+              <div class="step-h">ما اهتماماتك؟</div>
+              <div class="step-sub">
+                اختر المجالات التي تهمك — نستخدمها لتخصيص تجربتك ووصلك
+                بالمناسبين
+              </div>
+            </div>
+
+            <div class="int-cloud" id="interestsTags"></div>
+
+            <div class="step-nav">
+              <button class="btn-back-step" onclick="prevStep()">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 16px; height: 16px"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                السابق
+              </button>
+              <button class="btn-finish" onclick="finishReg()">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="width: 18px; height: 18px"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                إنشاء الحساب
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end reg-layout -->
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+      <div class="ld-text">جاري التحميل...</div>
+      <div class="ld-sub"></div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script>
+      window.GEMINI_KEY = GEMINI_KEY;
+    </script>
+    <script type="module">
+      import { db, auth } from "./js/firebase-config.js";
+      import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+      import {
+        doc,
+        setDoc,
+      } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+      let currentStep = 0,
+        userType = "",
+        selectedGrade = "",
+        selectedEduLevel = "";
+      let selectedInterests = [],
+        selectedFavSubjects = [];
+      let ocrData = {};
+
+      const FLOWS = {
+        secondary: ["step0", "step1_secondary", "step2", "step3", "step4"],
+        university: ["step0", "step2", "step3", "step4"],
+        mentor: ["step0", "step2", "step3", "step4"],
+      };
+      let flow = ["step0"];
+
+      const STEP_LABELS = {
+        step0: "نوع الحساب",
+        step1_secondary: "المرحلة",
+        step2: "البيانات",
+        step3: "الدراسي",
+        step4: "الاهتمامات",
+      };
+
+      const SEC_SUBJECTS = [
+        "الرياضيات",
+        "الفيزياء",
+        "الكيمياء",
+        "الأحياء",
+        "اللغة العربية",
+        "اللغة الإنجليزية",
+        "التاريخ",
+        "الجغرافيا",
+        "علم النفس",
+        "الحاسب",
+        "التربية الإسلامية",
+        "الاقتصاد",
+      ];
+
+      window.togglePass = function (id) {
+        const i = document.getElementById(id);
+        i.type = i.type === "password" ? "text" : "password";
+      };
+
+      const BRAND_CONTEXTS = {
+        secondary: {
+          tag: "طالب ثانوي",
+          h: "مسيرتك من هنا<br>تبدأ بثقة",
+          p: "تتبع درجاتك في القدرات والتحصيلي وستيب، واعرف التخصص الجامعي الأنسب لك قبل التقديم.",
+          items: [
+            {
+              icon: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+              title: "رسوم بيانية لدرجاتك",
+              desc: "قدرات، تحصيلي، ستيب، ونسبة المدرسة",
+            },
+            {
+              icon: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+              title: "توقع التخصص",
+              desc: "أنسب 3 تخصصات بناءً على بياناتك",
+            },
+            {
+              icon: '<path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>',
+              title: "مرشد",
+              desc: "تواصل مع مرشد في مدينتك",
+            },
+          ],
+        },
+        university: {
+          tag: "طالب جامعي",
+          h: "تحكّم في مسيرتك<br>الجامعية",
+          p: "إدارة مقرراتك، تتبع معدلك التراكمي، وتنبيهات مبكرة عن المواد المتعثرة.",
+          items: [
+            {
+              icon: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+              title: "إدارة المقررات",
+              desc: "GPA، مواد الفصل، وحالة كل مقرر",
+            },
+            {
+              icon: '<path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>',
+              title: "مساعد ذكي ٢٤/٧",
+              desc: "إجابات أكاديمية مخصصة لوضعك",
+            },
+            {
+              icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>',
+              title: "مجتمع الطلاب",
+              desc: "طلاب ومرشدون في مدينتك",
+            },
+          ],
+        },
+        mentor: {
+          tag: "مرشد",
+          h: "وجّه الجيل القادم<br>وأحدث فرقاً",
+          p: "استقبل استفسارات الطلاب، قدّم إرشادك الأكاديمي، وكن جزءاً من مجتمع تعليمي حقيقي.",
+          items: [
+            {
+              icon: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+              title: "استفسارات الطلاب",
+              desc: "استقبل وصنّف وردّ على الطلاب",
+            },
+            {
+              icon: '<path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>',
+              title: "مساعد في الردود",
+              desc: "الذكاء الاصطناعي يساعدك في الصياغة",
+            },
+            {
+              icon: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+              title: "لوحة تحكم الإرشاد",
+              desc: "إحصاءات نشاطك الإرشادي",
+            },
+          ],
+        },
+      };
+
+      function updateBrandContext(type) {
+        const ctx = BRAND_CONTEXTS[type];
+        if (!ctx) return;
+        const svgAttrs =
+          'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+        document.getElementById("brandContext").innerHTML = `
+    <div class="brand-tag">${ctx.tag}</div>
+    <div class="brand-h">${ctx.h}</div>
+    <p class="brand-p">${ctx.p}</p>
+    <div class="brand-items">
+      ${ctx.items
+        .map(
+          (it) => `
+        <div class="brand-item">
+          <div class="brand-item-icon"><svg ${svgAttrs}>${it.icon}</svg></div>
+          <div class="brand-item-text"><strong>${it.title}</strong>${it.desc}</div>
+        </div>
+      `,
+        )
+        .join("")}
+    </div>
+  `;
+      }
+
+      function renderSteps() {
+        const bar = document.getElementById("stepsBar");
+        bar.innerHTML = flow
+          .map(
+            (stepId, i) => `
+    ${i > 0 ? `<div class="st-line ${i <= currentStep ? "done" : ""}"></div>` : ""}
+    <div class="st-item">
+      <div class="st-num ${i < currentStep ? "done" : i === currentStep ? "active" : ""}">${i < currentStep ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="20 6 9 17 4 12"/></svg>' : i + 1}</div>
+      <div class="st-label ${i < currentStep ? "done" : i === currentStep ? "active" : ""}">${STEP_LABELS[stepId] || ""}</div>
+    </div>
+  `,
+          )
+          .join("");
+      }
+
+      function showStep(idx) {
+        document
+          .querySelectorAll(".step-panel")
+          .forEach((p) => p.classList.remove("active"));
+        document.getElementById(flow[idx]).classList.add("active");
+        currentStep = idx;
+        renderSteps();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      window.selectType = function (type, el) {
+        document
+          .querySelectorAll(".type-card-r")
+          .forEach((c) => c.classList.remove("selected"));
+        el.classList.add("selected");
+        userType = type;
+        flow = FLOWS[type] || ["step0"];
+        document.getElementById("schoolGroup").style.display =
+          type === "secondary" ? "" : "none";
+        document.getElementById("univGroup").style.display =
+          type === "university" || type === "mentor" ? "" : "none";
+        document.getElementById("specGroup").style.display =
+          type === "university" || type === "mentor" ? "" : "none";
+        document.getElementById("eduLevelGroup").style.display =
+          type === "mentor" ? "" : "none";
+        document.getElementById("secManualData").style.display =
+          type === "secondary" ? "" : "none";
+        document.getElementById("uniManualData").style.display =
+          type === "university" ? "" : "none";
+        updateBrandContext(type);
+        renderSteps();
+      };
+
+      window.selectGrade = function (g, el) {
+        document
+          .querySelectorAll(".grade-btn")
+          .forEach((o) => o.classList.remove("selected"));
+        el.classList.add("selected");
+        selectedGrade = g;
+      };
+      window.selectEduLevel = function (l, el) {
+        el.closest(".edu-grid")
+          .querySelectorAll(".edu-btn")
+          .forEach((o) => o.classList.remove("selected"));
+        el.classList.add("selected");
+        selectedEduLevel = l;
+      };
+
+      function validateStep(stepId) {
+        if (stepId === "step0") {
+          if (!userType) {
+            showToast("اختر نوع حسابك أولاً", "error");
+            return false;
+          }
+        }
+        if (stepId === "step1_secondary") {
+          if (!selectedGrade) {
+            showToast("اختر مرحلتك الدراسية", "error");
+            return false;
+          }
+        }
+        if (stepId === "step2") {
+          const fname = document.getElementById("fname").value.trim();
+          const gender = document.getElementById("gender").value;
+          const email = document.getElementById("email").value.trim();
+          const pass = document.getElementById("password").value;
+          const conf = document.getElementById("confirmPassword").value;
+          if (!fname) {
+            showToast("أدخل اسمك الكامل", "error");
+            document.getElementById("fname").focus();
+            return false;
+          }
+          if (!gender) {
+            showToast("اختر الجنس", "error");
+            return false;
+          }
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast("أدخل بريد إلكتروني صحيح", "error");
+            document.getElementById("email").focus();
+            return false;
+          }
+          if (pass.length < 8) {
+            showToast("كلمة المرور يجب أن تكون 8 أحرف على الأقل", "error");
+            document.getElementById("password").focus();
+            return false;
+          }
+          if (pass !== conf) {
+            showToast("كلمتا المرور غير متطابقتين", "error");
+            document.getElementById("confirmPassword").focus();
+            return false;
+          }
+          const phone = document.getElementById("phone").value.trim();
+          if (phone && !/^05\d{8}$/.test(phone)) {
+            showToast(
+              "رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام",
+              "error",
+            );
+            document.getElementById("phone").focus();
+            return false;
+          }
+        }
+        if (stepId === "step3") {
+          if (userType === "mentor" && !selectedEduLevel) {
+            showToast("اختر مستوى تعليمك", "error");
+            return false;
+          }
+          if (userType === "university" || userType === "mentor") {
+            const spec = document.getElementById("specialization").value;
+            const specCustom = document
+              .getElementById("specCustom")
+              ?.value?.trim();
+            if (!spec && !specCustom) {
+              showToast("اختر تخصصك أو اكتبه", "error");
+              return false;
+            }
+          }
+        }
+        if (stepId === "step4") {
+          if (selectedInterests.length === 0) {
+            showToast("اختر اهتمامًا واحدًا على الأقل", "error");
+            return false;
+          }
+        }
+        return true;
+      }
+
+      window.nextStep = function () {
+        const stepId = flow[currentStep];
+        if (!validateStep(stepId)) return;
+        if (currentStep < flow.length - 1) showStep(currentStep + 1);
+      };
+      window.prevStep = function () {
+        if (currentStep > 0) showStep(currentStep - 1);
+      };
+
+      function populateDateSelects() {
+        const months = document.getElementById("birthMonth");
+        const years = document.getElementById("birthYear");
+        [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "مايو",
+          "يونيو",
+          "يوليو",
+          "أغسطس",
+          "سبتمبر",
+          "أكتوبر",
+          "نوفمبر",
+          "ديسمبر",
+        ].forEach(
+          (m, i) =>
+            (months.innerHTML += `<option value="${i + 1}">${m}</option>`),
+        );
+        const cy = new Date().getFullYear();
+        for (let y = cy - 10; y >= cy - 70; y--)
+          years.innerHTML += `<option value="${y}">${y}</option>`;
+        updateDays();
+      }
+      window.updateDays = function () {
+        const m = parseInt(document.getElementById("birthMonth").value) || 0;
+        const y =
+          parseInt(document.getElementById("birthYear").value) ||
+          new Date().getFullYear();
+        const daysSel = document.getElementById("birthDay");
+        const prev = daysSel.value;
+        const maxDays = m ? new Date(y, m, 0).getDate() : 31;
+        daysSel.innerHTML = '<option value="">اليوم</option>';
+        for (let d = 1; d <= maxDays; d++)
+          daysSel.innerHTML += `<option value="${d}"${prev == d ? " selected" : ""}>${d}</option>`;
+      };
+
+      window.filterCities = function () {
+        const sel = document.getElementById("city");
+        sel.innerHTML = '<option value="">اختر المدينة...</option>';
+        SAUDI_CITIES.forEach(
+          (c) => (sel.innerHTML += `<option value="${c}">${c}</option>`),
+        );
+      };
+      function populateRegions() {
+        SAUDI_REGIONS.forEach(
+          (r) =>
+            (document.getElementById("region").innerHTML +=
+              `<option value="${r}">${r}</option>`),
+        );
+      }
+      function populateSpecs() {
+        SPECIALIZATIONS.forEach(
+          (s) =>
+            (document.getElementById("specialization").innerHTML +=
+              `<option value="${s}">${s}</option>`),
+        );
+      }
+
+      function populateFavSubjects() {
+        const wrap = document.getElementById("favSubjectsTags");
+        if (!wrap) return;
+        wrap.innerHTML = "";
+        SEC_SUBJECTS.forEach((sub) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "fav-tag";
+          btn.textContent = sub;
+          btn.onclick = () => {
+            btn.classList.toggle("active");
+            if (btn.classList.contains("active")) selectedFavSubjects.push(sub);
+            else
+              selectedFavSubjects = selectedFavSubjects.filter(
+                (s) => s !== sub,
+              );
+          };
+          wrap.appendChild(btn);
+        });
+      }
+
+      function populateInterests() {
+        const wrap = document.getElementById("interestsTags");
+        INTERESTS.forEach((int) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "int-chip";
+          btn.textContent = int;
+          btn.onclick = () => {
+            btn.classList.toggle("active");
+            if (btn.classList.contains("active")) selectedInterests.push(int);
+            else selectedInterests = selectedInterests.filter((i) => i !== int);
+          };
+          wrap.appendChild(btn);
+        });
+      }
+
+      window.addSubjectRow = function () {
+        const table = document.getElementById("subjectGradesTable");
+        const id = "sr_" + Date.now();
+        const row = document.createElement("div");
+        row.className = "subject-row";
+        row.id = id;
+        row.innerHTML = `
+    <input type="text" class="subj-inp subj-name" placeholder="اسم المادة">
+    <input type="number" class="subj-inp subj-grade" min="0" max="100" step="0.1" placeholder="النسبة">
+    <button onclick="document.getElementById('${id}').remove()" type="button" style="background:none;border:none;cursor:pointer;color:var(--danger);font-size:18px;padding:4px;">✕</button>`;
+        table.appendChild(row);
+      };
+
+      async function handleCert(input) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        if (file.type === "application/pdf") {
+          const el = document.getElementById("ocrResult");
+          el.classList.add("show");
+          el.style.background = "var(--gold-light)";
+          el.style.color = "var(--gold-dark)";
+          el.textContent =
+            "ملفات PDF غير مدعومة للقراءة التلقائية. يمكنك المتابعة يدوياً أو التقاط صورة للشهادة.";
+          return;
+        }
+        const zone = document.getElementById("uploadZone");
+        zone.classList.add("done");
+        zone.querySelector(".upload-title").textContent = file.name;
+        try {
+          showLoading(
+            "جاري قراءة الشهادة...",
+            "الذكاء الاصطناعي يستخرج البيانات",
+          );
+          const base64 = await fileToBase64(file);
+          const mimeType = file.type || "image/jpeg";
+          const geminiKey = window.GEMINI_KEY;
+          const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [
+                  {
+                    parts: [
+                      {
+                        text: `أنت نظام استخراج بيانات من شهادات دراسية سعودية. استخرج البيانات وأرجعها بـ JSON فقط بدون أي كلام آخر:\n{"studentName":"","gpa":"","year":"","school":"","subjects":[{"name":"","grade":""}],"totalWeighted":""}`,
+                      },
+                      { inline_data: { mime_type: mimeType, data: base64 } },
+                    ],
+                  },
+                ],
+              }),
+            },
+          );
+          const result = await response.json();
+          const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          const data = safeJSON(text);
+          hideLoading();
+          if (data && (data.studentName || data.subjects?.length)) {
+            ocrData = data;
+            const el = document.getElementById("ocrResult");
+            el.classList.add("show");
+            el.innerHTML = `تم قراءة الشهادة بنجاح
+        ${data.studentName ? `<br>الاسم: <strong>${data.studentName}</strong>` : ""}
+        ${data.gpa ? `<br>المعدل: <strong>${data.gpa}</strong>` : ""}
+        ${data.subjects?.length ? `<br><strong>${data.subjects.length}</strong> مادة` : ""}`;
+            if (data.studentName && !document.getElementById("fname").value)
+              document.getElementById("fname").value = data.studentName;
+            if (data.school && document.getElementById("school"))
+              document.getElementById("school").value = data.school;
+          } else {
+            const el = document.getElementById("ocrResult");
+            el.classList.add("show");
+            el.textContent = "يمكنك المتابعة وإدخال البيانات يدوياً";
+          }
+        } catch (e) {
+          hideLoading();
+          const el = document.getElementById("ocrResult");
+          el.classList.add("show");
+          el.textContent = "تعذر قراءة الشهادة، يمكنك المتابعة يدوياً";
+        }
+      }
+      window.handleCert = handleCert;
+
+      function fileToBase64(file) {
+        return new Promise((res, rej) => {
+          const r = new FileReader();
+          r.onload = () => res(r.result.split(",")[1]);
+          r.onerror = rej;
+          r.readAsDataURL(file);
+        });
+      }
+
+      window.finishReg = async function () {
+        if (!validateStep("step4")) return;
+        const name = document.getElementById("fname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const phone = document.getElementById("phone").value.trim();
+
+        const subjectGrades = [];
+        document.querySelectorAll(".subject-row").forEach((row) => {
+          const n = row.querySelector(".subj-name")?.value?.trim();
+          const g = row.querySelector(".subj-grade")?.value?.trim();
+          if (n && g) subjectGrades.push({ name: n, grade: g });
+        });
+        const customFav = document
+          .getElementById("favSubjectsCustom")
+          ?.value?.trim();
+        if (customFav)
+          customFav
+            .split(",")
+            .map((s) => s.trim())
+            .filter((s) => s)
+            .forEach((s) => {
+              if (!selectedFavSubjects.includes(s)) selectedFavSubjects.push(s);
+            });
+
+        showLoading("جاري إنشاء حسابك...", "مرحباً بك في مدد");
+        try {
+          const cred = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
+          );
+          const uid = cred.user.uid;
+          const userData = {
+            uid,
+            type: userType,
+            name,
+            gender: document.getElementById("gender").value,
+            nid: document.getElementById("nid").value,
+            birthDay: document.getElementById("birthDay").value,
+            birthMonth: document.getElementById("birthMonth").value,
+            birthYear: document.getElementById("birthYear").value,
+            region: document.getElementById("region").value,
+            city: document.getElementById("city").value,
+            school: document.getElementById("school")?.value || "",
+            university: document.getElementById("university")?.value || "",
+            email,
+            phone,
+            grade: selectedGrade,
+            eduLevel: selectedEduLevel,
+            specialization:
+              document.getElementById("specialization")?.value ||
+              document.getElementById("specCustom")?.value ||
+              "",
+            interests: selectedInterests,
+            favSubjects: selectedFavSubjects,
+            subjectGrades,
+            lastYearGrade:
+              document.getElementById("lastYearGrade")?.value || "",
+            highSchoolWazn:
+              document.getElementById("highSchoolWazn")?.value || "",
+            uniGpa: document.getElementById("uniGpaInput")?.value || "",
+            ocrData,
+            registeredAt: new Date().toISOString(),
+            avatar: (name || "م").charAt(0).toUpperCase(),
+          };
+          await setDoc(doc(db, "users", uid), userData);
+          setCurrentUser(userData);
+          saveData("notifications", []);
+          hideLoading();
+          setTimeout(async () => {
+            try {
+              const welcome = await callGemini(
+                `أرسل رسالة ترحيب دافئة وتحفيزية قصيرة (3 جمل) لطالب جديد اسمه ${name} انضم لمنصة مدد التعليمية.`,
+              );
+              addNotification(
+                "مرحباً بك في مدد",
+                welcome || `أهلاً ${name}، رحلتك نحو النجاح تبدأ الآن.`,
+                "welcome",
+              );
+            } catch {}
+          }, 500);
+          window.location.href = "dashboard.html";
+        } catch (error) {
+          hideLoading();
+          if (error.code === "auth/email-already-in-use")
+            showToast("البريد الإلكتروني مستخدم مسبقاً", "error");
+          else if (error.code === "auth/weak-password")
+            showToast("كلمة المرور ضعيفة جداً", "error");
+          else showToast("حدث خطأ، حاول مرة أخرى", "error");
+        }
+      };
+
+      async function detectLocation() {
+        if (!navigator.geolocation) {
+          showToast("المتصفح لا يدعم GPS", "error");
+          return;
+        }
+        showLoading("جاري تحديد موقعك...", "");
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            try {
+              const { latitude: lat, longitude: lng } = pos.coords;
+              const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ar&region=sa&key=AIzaSyBICbbtpdfv7WezS24Px-xCZAVsk6-E1kE`;
+              const res = await fetch(url);
+              const data = await res.json();
+              hideLoading();
+              if (data.status === "OK") {
+                const comps = data.results[0].address_components;
+                const get = (type) =>
+                  comps.find((c) => c.types.includes(type))?.long_name || "";
+                const city =
+                  get("locality") || get("administrative_area_level_2");
+                const region = get("administrative_area_level_1");
+                document.getElementById("city").value = city;
+                document.getElementById("region").value = region;
+                showToast(`تم تحديد موقعك: ${city}`);
+              }
+            } catch (e) {
+              hideLoading();
+              showToast("تعذر تحديد الموقع", "error");
+            }
+          },
+          () => {
+            hideLoading();
+            showToast("تم رفض إذن الموقع", "error");
+          },
+        );
+      }
+      window.detectLocation = detectLocation;
+
+      window.livePassCheck = function () {
+        const input = document.getElementById("password");
+        const hint = document.getElementById("passHint");
+        const bars = [
+          document.getElementById("pbar1"),
+          document.getElementById("pbar2"),
+          document.getElementById("pbar3"),
+          document.getElementById("pbar4"),
+        ];
+        const val = input.value;
+        if (!val) {
+          hint.className = "pass-hint";
+          hint.textContent = "";
+          bars.forEach((b) => (b.className = ""));
+          input.classList.remove("is-error", "is-valid");
+          return;
+        }
+        let strength = 0;
+        if (val.length >= 8) strength++;
+        if (/[A-Z]/.test(val) || /[a-z]/.test(val)) strength++;
+        if (/[0-9]/.test(val)) strength++;
+        if (/[^A-Za-z0-9]/.test(val)) strength++;
+        const cls = ["", "weak", "medium", "medium", "strong"];
+        bars.forEach(
+          (b, i) => (b.className = i < strength ? cls[strength] : ""),
+        );
+        if (val.length < 8) {
+          hint.className = "pass-hint err";
+          hint.textContent = "كلمة المرور قصيرة — يجب 8 أحرف على الأقل";
+          input.classList.add("is-error");
+          input.classList.remove("is-valid");
+        } else if (strength === 1) {
+          hint.className = "pass-hint err";
+          hint.textContent = "ضعيفة — أضف أرقاماً أو رموزاً";
+          input.classList.add("is-error");
+          input.classList.remove("is-valid");
+        } else if (strength === 2) {
+          hint.className = "pass-hint";
+          hint.style.color = "#f9a825";
+          hint.textContent = "مقبولة";
+          input.classList.remove("is-error", "is-valid");
+        } else {
+          hint.className = "pass-hint ok";
+          hint.textContent = "كلمة المرور قوية";
+          input.classList.remove("is-error");
+          input.classList.add("is-valid");
+        }
+        if (document.getElementById("confirmPassword").value)
+          liveConfirmCheck();
+      };
+
+      window.liveConfirmCheck = function () {
+        const pass = document.getElementById("password").value;
+        const confirm = document.getElementById("confirmPassword");
+        const hint = document.getElementById("confirmHint");
+        if (!confirm.value) {
+          hint.className = "pass-hint";
+          hint.textContent = "";
+          confirm.classList.remove("is-error", "is-valid");
+          return;
+        }
+        if (confirm.value === pass) {
+          hint.className = "pass-hint ok";
+          hint.textContent = "كلمتا المرور متطابقتان";
+          confirm.classList.remove("is-error");
+          confirm.classList.add("is-valid");
+        } else {
+          hint.className = "pass-hint err";
+          hint.textContent = "كلمتا المرور غير متطابقتين";
+          confirm.classList.add("is-error");
+          confirm.classList.remove("is-valid");
+        }
+      };
+
+      // Init
+      populateDateSelects();
+      populateRegions();
+      filterCities();
+      populateSpecs();
+      populateFavSubjects();
+      populateInterests();
+      renderSteps();
+      showStep(0);
+
+      // Auto-select type from URL
+      const urlType = new URLSearchParams(location.search).get("type");
+      if (urlType) {
+        const card = document.querySelector(
+          `.t-${urlType === "secondary" ? "sec" : urlType === "university" ? "uni" : "men"}`,
+        );
+        if (card) window.selectType(urlType, card);
+      }
+    </script>
+  </body>
+</html>

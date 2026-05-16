@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مدد – تسجيل الدخول</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+      }
+
+      /* ── Brand panel ── */
+      .brand-panel {
+        width: 44%;
+        background: linear-gradient(
+          155deg,
+          #0b2218 0%,
+          #1a4a2e 45%,
+          #2d6a4a 100%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 48px;
+        position: relative;
+        overflow: hidden;
+      }
+      .brand-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 75% 20%,
+            rgba(201, 168, 76, 0.18) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse at 15% 85%,
+            rgba(45, 106, 74, 0.35) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+      .brand-panel::after {
+        content: "";
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .brand-inner {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+      }
+
+      .brand-logo-wrap {
+        width: 90px;
+        height: 90px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 28px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      }
+      .brand-logo-wrap svg {
+        width: 52px;
+        height: 52px;
+      }
+
+      .brand-name {
+        font-size: 46px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1.5px;
+        margin-bottom: 14px;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+      }
+      .brand-tagline {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.65);
+        line-height: 1.75;
+        max-width: 280px;
+        margin: 0 auto 48px;
+      }
+      .brand-features {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        width: 100%;
+        max-width: 280px;
+      }
+      .brand-feat {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 12px 16px;
+        text-align: right;
+      }
+      .brand-feat-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .brand-feat-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+      .brand-feat-text {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+      }
+
+      /* ── Form panel ── */
+      .form-panel {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 32px;
+      }
+      .form-inner {
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .form-header {
+        margin-bottom: 36px;
+      }
+      .form-title {
+        font-size: 30px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 7px;
+      }
+      .form-sub {
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+
+      /* Alert */
+      .alert {
+        border-radius: 12px;
+        padding: 13px 16px;
+        font-size: 13px;
+        margin-bottom: 22px;
+        display: none;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.5;
+        border: 1px solid;
+      }
+      .alert.show {
+        display: flex;
+        animation: alertIn 0.3s ease;
+      }
+      .alert-error {
+        background: #fef2f2;
+        color: #b91c1c;
+        border-color: #fecaca;
+      }
+      .alert-error svg {
+        color: #b91c1c;
+        flex-shrink: 0;
+      }
+      .alert-ok {
+        background: #f0fdf4;
+        color: #15803d;
+        border-color: #bbf7d0;
+      }
+      .alert-ok svg {
+        color: #15803d;
+        flex-shrink: 0;
+      }
+      @keyframes alertIn {
+        from {
+          opacity: 0;
+          transform: translateY(-6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20%,
+        60% {
+          transform: translateX(-7px);
+        }
+        40%,
+        80% {
+          transform: translateX(7px);
+        }
+      }
+      .shake {
+        animation: shake 0.4s ease;
+      }
+
+      /* Input */
+      .field {
+        margin-bottom: 20px;
+      }
+      .field-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-mid);
+        margin-bottom: 8px;
+      }
+      .field-label a {
+        font-size: 12px;
+        color: var(--green-dark);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .field-label a:hover {
+        text-decoration: underline;
+      }
+
+      .input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .input-icon {
+        position: absolute;
+        right: 14px;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+        z-index: 1;
+        color: var(--text-muted);
+      }
+      .input-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+      .input-wrap input {
+        width: 100%;
+        padding: 13px 42px 13px 14px;
+        border: 1.8px solid var(--border);
+        border-radius: 12px;
+        font-family: "Cairo", sans-serif;
+        font-size: 14px;
+        color: var(--text-dark);
+        background: var(--surface);
+        text-align: right;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .input-wrap input:focus {
+        border-color: var(--green-main);
+        box-shadow: 0 0 0 4px rgba(45, 106, 74, 0.1);
+      }
+      .input-wrap input.is-error {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 4px rgba(217, 79, 79, 0.1);
+      }
+      .input-wrap input.is-valid {
+        border-color: var(--success);
+        box-shadow: 0 0 0 4px rgba(58, 158, 104, 0.1);
+      }
+      .btn-eye {
+        position: absolute;
+        left: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        opacity: 0.4;
+        transition: opacity 0.2s;
+        display: flex;
+        align-items: center;
+        color: var(--text-mid);
+        line-height: 1;
+      }
+      .btn-eye svg {
+        width: 17px;
+        height: 17px;
+      }
+      .btn-eye:hover {
+        opacity: 1;
+      }
+
+      .field-hint {
+        font-size: 12px;
+        margin-top: 6px;
+        display: none;
+        align-items: center;
+        gap: 5px;
+      }
+      .field-hint.show {
+        display: flex;
+      }
+      .field-hint.err {
+        color: var(--danger);
+      }
+      .field-hint svg {
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
+      }
+
+      /* Submit button */
+      .btn-submit {
+        width: 100%;
+        height: 52px;
+        background: var(--green-dark);
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        font-family: "Cairo", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .btn-submit:hover:not(:disabled) {
+        background: var(--green-main);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(26, 74, 46, 0.3);
+      }
+      .btn-submit:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 24px 0;
+      }
+      .divider hr {
+        flex: 1;
+        border: none;
+        border-top: 1px solid var(--border);
+      }
+      .divider span {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .footer-link {
+        text-align: center;
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+      .footer-link a {
+        color: var(--green-dark);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .footer-link a:hover {
+        text-decoration: underline;
+      }
+
+      .back-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 13px;
+        color: var(--text-muted);
+        text-decoration: none;
+        display: block;
+        transition: color 0.2s;
+      }
+      .back-link:hover {
+        color: var(--green-dark);
+      }
+
+      /* Mobile */
+      @media (max-width: 820px) {
+        body {
+          flex-direction: column;
+        }
+        .brand-panel {
+          width: 100%;
+          padding: 32px 24px;
+        }
+        .brand-tagline,
+        .brand-features {
+          display: none;
+        }
+        .brand-name {
+          font-size: 34px;
+          margin-bottom: 0;
+        }
+        .brand-logo-wrap {
+          width: 70px;
+          height: 70px;
+          border-radius: 20px;
+          margin-bottom: 16px;
+        }
+        .form-panel {
+          padding: 32px 20px 48px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Brand Panel ── -->
+    <div class="brand-panel">
+      <div class="brand-inner anim-up">
+        <div class="brand-logo-wrap">
+          <img
+            src="images/logo.png"
+            alt="مدد"
+            style="
+              height: 68px;
+              width: auto;
+              object-fit: contain;
+              filter: brightness(0) invert(1);
+            "
+          />
+        </div>
+        <div class="brand-tagline">
+          منصتك الأكاديمية الذكية لمتابعة مسيرتك التعليمية والتواصل مع مجتمعك
+        </div>
+        <div class="brand-features">
+          <div class="brand-feat">
+            <div class="brand-feat-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+            </div>
+            <div class="brand-feat-text">تنبّؤ بالتخصص الجامعي المناسب لك</div>
+          </div>
+          <div class="brand-feat">
+            <div class="brand-feat-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div class="brand-feat-text">تواصل مع طلاب ومرشدين</div>
+          </div>
+          <div class="brand-feat">
+            <div class="brand-feat-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"
+                />
+              </svg>
+            </div>
+            <div class="brand-feat-text">مساعد ذكي يحلّل وضعك الأكاديمي</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Form Panel ── -->
+    <div class="form-panel">
+      <div class="form-inner anim-up">
+        <div class="form-header">
+          <div class="form-title">مرحباً بعودتك</div>
+          <div class="form-sub">سجّل دخولك للمتابعة في مدد</div>
+        </div>
+
+        <div class="alert alert-error" id="alertBox">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px"
+          >
+            <path
+              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          <span id="alertText"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <div class="field-label"><span>البريد الإلكتروني</span></div>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </span>
+            <input
+              id="loginEmail"
+              type="email"
+              placeholder="example@email.com"
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="field">
+          <div class="field-label">
+            <span>كلمة المرور</span>
+            <a
+              href="#"
+              onclick="
+                forgotPassword();
+                return false;
+              "
+              >نسيت كلمة المرور؟</a
+            >
+          </div>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </span>
+            <input
+              id="loginPassword"
+              type="password"
+              placeholder="كلمة المرور"
+              autocomplete="current-password"
+              oninput="validatePassLive(this)"
+            />
+            <button
+              class="btn-eye"
+              id="btnEye"
+              onclick="togglePass()"
+              type="button"
+              tabindex="-1"
+            >
+              <svg
+                id="eyeIcon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+          <div class="field-hint err" id="passHint">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
+              />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            <span id="passHintText"></span>
+          </div>
+        </div>
+
+        <button class="btn-submit" id="loginBtn" onclick="doLogin()">
+          تسجيل الدخول
+        </button>
+
+        <div class="divider">
+          <hr />
+          <span>أو</span>
+          <hr />
+        </div>
+
+        <div class="footer-link">
+          ما عندك حساب؟ <a href="register.html">سجّل الآن مجاناً</a>
+        </div>
+
+        <a href="index.html" class="back-link">← العودة للرئيسية</a>
+      </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+      <div class="ld-text">جاري تسجيل الدخول...</div>
+      <div class="ld-sub"></div>
+    </div>
+
+    <script src="js/config.js" defer></script>
+    <script type="module">
+      import { auth, db } from "./js/firebase-config.js";
+      import {
+        signInWithEmailAndPassword,
+        sendPasswordResetEmail,
+      } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+      import {
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+      auth.onAuthStateChanged((u) => {
+        if (u && getCurrentUser()) window.location.href = "dashboard.html";
+      });
+
+      /* ── Alert helpers ── */
+      function showAlert(msg) {
+        const box = document.getElementById("alertBox");
+        const text = document.getElementById("alertText");
+        text.textContent = msg;
+        box.className = "alert alert-error show";
+        box.classList.remove("shake");
+        void box.offsetWidth;
+        box.classList.add("shake");
+      }
+      function hideAlert() {
+        document.getElementById("alertBox").classList.remove("show");
+      }
+
+      /* ── Real-time password validation ── */
+      window.validatePassLive = function (input) {
+        const hint = document.getElementById("passHint");
+        const hintText = document.getElementById("passHintText");
+        if (!input.value) {
+          hint.className = "field-hint err";
+          input.classList.remove("is-error", "is-valid");
+          return;
+        }
+        if (input.value.length < 8) {
+          hint.className = "field-hint err show";
+          hintText.textContent = "كلمة المرور قصيرة — يجب 8 أحرف على الأقل";
+          input.classList.add("is-error");
+          input.classList.remove("is-valid");
+        } else {
+          hint.className = "field-hint err";
+          input.classList.remove("is-error");
+          input.classList.add("is-valid");
+        }
+      };
+
+      window.togglePass = function () {
+        const inp = document.getElementById("loginPassword");
+        const icon = document.getElementById("eyeIcon");
+        const show = inp.type === "password";
+        inp.type = show ? "text" : "password";
+        icon.innerHTML = show
+          ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+          : '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+      };
+
+      /* ── Login ── */
+      window.doLogin = async function () {
+        hideAlert();
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+        const btn = document.getElementById("loginBtn");
+
+        if (!email) {
+          showAlert("يرجى إدخال البريد الإلكتروني");
+          document.getElementById("loginEmail").focus();
+          return;
+        }
+        if (!password) {
+          showAlert("يرجى إدخال كلمة المرور");
+          document.getElementById("loginPassword").focus();
+          return;
+        }
+        if (password.length < 8) {
+          showAlert("كلمة المرور يجب أن تكون 8 أحرف على الأقل");
+          document.getElementById("loginPassword").classList.add("is-error");
+          document.getElementById("loginPassword").focus();
+          return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML =
+          '<div class="spinner" style="width:22px;height:22px;border-width:3px;margin:0;"></div>';
+        showLoading("جاري تسجيل الدخول...", "");
+
+        try {
+          const cred = await signInWithEmailAndPassword(auth, email, password);
+          const snap = await getDoc(doc(db, "users", cred.user.uid));
+          if (!snap.exists()) {
+            hideLoading();
+            showAlert("لم يتم العثور على بياناتك، يرجى التسجيل من جديد.");
+            btn.disabled = false;
+            btn.textContent = "تسجيل الدخول";
+            return;
+          }
+          const userData = snap.data();
+          setCurrentUser(userData);
+          hideLoading();
+          showToast(`أهلاً ${userData.name}!`);
+          setTimeout(() => (window.location.href = "dashboard.html"), 800);
+        } catch (error) {
+          hideLoading();
+          btn.disabled = false;
+          btn.textContent = "تسجيل الدخول";
+          const msgs = {
+            "auth/user-not-found": "البريد الإلكتروني غير مسجل لدينا",
+            "auth/wrong-password": "كلمة المرور غير صحيحة",
+            "auth/invalid-email": "صيغة البريد الإلكتروني غير صحيحة",
+            "auth/too-many-requests": "محاولات كثيرة، حاول بعد قليل",
+            "auth/invalid-credential":
+              "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+          };
+          showAlert(msgs[error.code] || "حدث خطأ، حاول مرة أخرى");
+          if (
+            ["auth/wrong-password", "auth/invalid-credential"].includes(
+              error.code,
+            )
+          ) {
+            const p = document.getElementById("loginPassword");
+            p.classList.add("is-error");
+            p.classList.remove("is-valid");
+            p.focus();
+          }
+        }
+      };
+
+      /* ── Forgot password ── */
+      window.forgotPassword = async function () {
+        const email = document.getElementById("loginEmail").value.trim();
+        if (!email) {
+          showAlert("أدخل بريدك الإلكتروني أولاً");
+          return;
+        }
+        showLoading("جاري إرسال رابط إعادة التعيين...", "");
+        try {
+          await sendPasswordResetEmail(auth, email);
+          hideLoading();
+          const box = document.getElementById("alertBox");
+          const text = document.getElementById("alertText");
+          text.textContent =
+            "تم إرسال رابط إعادة تعيين كلمة المرور لبريدك الإلكتروني";
+          box.className = "alert alert-ok show";
+        } catch {
+          hideLoading();
+          showAlert("تعذر إرسال البريد، تحقق من العنوان");
+        }
+      };
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") window.doLogin();
+      });
+    </script>
+  </body>
+</html>

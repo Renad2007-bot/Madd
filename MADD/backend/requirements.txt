@@ -1,0 +1,16 @@
+# الباك-اند والسيرفر
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# نموذج التصنيف + التنبؤ (scikit-learn)
+# مثبّتة على نفس نسخة التدريب — لا تغيّريها وإلا تطلع تحذيرات/نتائج غير موثوقة
+scikit-learn==1.6.1
+joblib
+numpy
+pandas
+
+# OCR
+pytesseract
+Pillow

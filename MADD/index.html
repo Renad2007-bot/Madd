@@ -1,0 +1,2124 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مدد – فكرٌ يُعدّ.. وعونٌ يَمُدّ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      :root {
+        --nav-h: 68px;
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ══ NAV ══ */
+      .l-nav {
+        position: fixed;
+        top: 0;
+        inset-inline: 0;
+        z-index: 500;
+        height: var(--nav-h);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 56px;
+        background: rgba(245, 240, 232, 0);
+        backdrop-filter: blur(0);
+        border-bottom: 1px solid transparent;
+        transition:
+          background 0.4s var(--ease),
+          backdrop-filter 0.4s,
+          border-color 0.4s;
+      }
+      .l-nav.scrolled {
+        background: rgba(245, 240, 232, 0.95);
+        backdrop-filter: blur(18px);
+        border-color: rgba(0, 0, 0, 0.07);
+      }
+      .nav-logo img {
+        height: 36px;
+        width: auto;
+        object-fit: contain;
+        display: block;
+      }
+      .nav-center {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .nav-link {
+        font-size: 14px;
+        color: var(--text-mid);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        right: 0;
+        width: 0;
+        height: 2px;
+        background: var(--green-main);
+        transition: width 0.25s var(--ease);
+        border-radius: 2px;
+      }
+      .nav-link:hover {
+        color: var(--green-dark);
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* ══ HERO ══ */
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 100svh;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: calc(var(--nav-h) + 48px) 56px 64px;
+        gap: 56px;
+        align-items: center;
+      }
+      .hero-text {
+        animation: fadeUp 0.7s var(--ease) both;
+      }
+
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--green-light);
+        color: var(--green-dark);
+        border-radius: 30px;
+        padding: 7px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 28px;
+      }
+      .eyebrow-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green-main);
+        box-shadow: 0 0 0 3px rgba(45, 106, 74, 0.2);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 3px rgba(45, 106, 74, 0.2);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(45, 106, 74, 0.06);
+        }
+      }
+
+      .hero-headline {
+        font-size: clamp(32px, 4vw, 54px);
+        font-weight: 800;
+        color: var(--text-dark);
+        line-height: 1.15;
+        margin-bottom: 16px;
+        font-family: "Cairo", sans-serif;
+      }
+      .hero-headline em {
+        font-style: normal;
+        background: linear-gradient(
+          135deg,
+          var(--green-main),
+          var(--green-dark)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero-tagline {
+        font-size: 17px;
+        color: var(--gold-dark);
+        font-weight: 700;
+        margin-bottom: 18px;
+        font-family: "Cairo", sans-serif;
+      }
+      .hero-desc {
+        font-size: 15px;
+        color: var(--text-mid);
+        line-height: 1.85;
+        max-width: 480px;
+        margin-bottom: 36px;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+      .btn-hero-primary {
+        padding: 15px 36px;
+        font-size: 15px;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--green-dark),
+          var(--green-main)
+        );
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 8px 24px rgba(26, 74, 46, 0.28);
+        transition: all 0.25s var(--ease);
+      }
+      .btn-hero-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 32px rgba(26, 74, 46, 0.36);
+      }
+      .btn-hero-outline {
+        padding: 14px 32px;
+        font-size: 15px;
+        font-weight: 600;
+        border: 2px solid var(--green-dark);
+        color: var(--green-dark);
+        background: transparent;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s var(--ease);
+      }
+      .btn-hero-outline:hover {
+        background: var(--green-dark);
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .hero-trust {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        color: var(--text-mid);
+      }
+      .trust-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green-main);
+      }
+
+      /* ══ HERO VISUAL ══ */
+      .hero-visual {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeUp 0.7s var(--ease) 0.15s both;
+      }
+      .hero-logo-wrap {
+        position: relative;
+        z-index: 2;
+        background: var(--surface);
+        border-radius: 36px;
+        padding: 48px;
+        box-shadow:
+          0 20px 60px rgba(26, 74, 46, 0.14),
+          0 4px 16px rgba(0, 0, 0, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-logo-wrap img {
+        width: clamp(140px, 18vw, 220px);
+        height: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 8px 24px rgba(45, 106, 74, 0.2));
+      }
+
+      .hero-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1.5px solid;
+        opacity: 0.18;
+      }
+      .hero-ring-1 {
+        width: 340px;
+        height: 340px;
+        border-color: var(--green-main);
+      }
+      .hero-ring-2 {
+        width: 460px;
+        height: 460px;
+        border-color: var(--gold);
+        animation: spin 30s linear infinite;
+      }
+      .hero-ring-3 {
+        width: 560px;
+        height: 560px;
+        border-color: var(--green-dark);
+      }
+
+      .hero-chip {
+        position: absolute;
+        background: var(--surface);
+        border-radius: 14px;
+        padding: 10px 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-dark);
+        white-space: nowrap;
+        z-index: 3;
+      }
+      .hero-chip svg {
+        width: 18px;
+        height: 18px;
+        color: var(--green-main);
+        flex-shrink: 0;
+      }
+      .chip-1 {
+        top: 8%;
+        right: -6%;
+        animation: float 4s ease-in-out infinite;
+      }
+      .chip-2 {
+        bottom: 16%;
+        right: -14%;
+        animation: float 4s ease-in-out 0.8s infinite;
+      }
+      .chip-3 {
+        top: 20%;
+        left: -12%;
+        animation: float 4s ease-in-out 1.4s infinite;
+      }
+      .chip-4 {
+        bottom: 8%;
+        left: -4%;
+        animation: float 4s ease-in-out 2s infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ══ STATS BAR ══ */
+      .stats-bar {
+        background: var(--green-dark);
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 36px 56px;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        flex: 1;
+        min-width: 140px;
+      }
+      .stat-item:last-child {
+        border-left: none;
+      }
+      .stat-val {
+        font-size: clamp(28px, 4vw, 42px);
+        font-weight: 900;
+        color: white;
+        font-family: "Cairo", sans-serif;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .stat-val sup {
+        font-size: 0.55em;
+        color: var(--gold);
+      }
+      .stat-lbl {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+      }
+
+      /* ══ SECTIONS ══ */
+      .section {
+        padding: 96px 64px;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      .section-full {
+        padding: 96px 64px;
+      }
+      .tag-line {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--green-main);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .tag-line::before {
+        content: "";
+        width: 20px;
+        height: 2px;
+        background: var(--green-main);
+        border-radius: 2px;
+      }
+      .section-h {
+        font-size: clamp(26px, 3.5vw, 44px);
+        font-weight: 800;
+        color: var(--text-dark);
+        font-family: "Cairo", sans-serif;
+        line-height: 1.2;
+        margin-bottom: 14px;
+      }
+      .section-sub {
+        font-size: 15px;
+        color: var(--text-mid);
+        line-height: 1.8;
+        max-width: 520px;
+      }
+      .section-header {
+        margin-bottom: 60px;
+      }
+      .section-header.center {
+        text-align: center;
+      }
+      .section-header.center .section-sub {
+        margin: 0 auto;
+      }
+
+      /* ══ FEATURES ══ */
+      .feat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .feat-card {
+        background: var(--surface);
+        border-radius: 20px;
+        padding: 32px;
+        border: 1.5px solid var(--border);
+        transition: all 0.3s var(--ease);
+        position: relative;
+        overflow: hidden;
+        cursor: default;
+      }
+      .feat-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          var(--green-light) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.3s var(--ease);
+        border-radius: 20px;
+      }
+      .feat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        border-color: rgba(45, 106, 74, 0.25);
+      }
+      .feat-card:hover::after {
+        opacity: 1;
+      }
+      .feat-card > * {
+        position: relative;
+        z-index: 1;
+      }
+      .f-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-shrink: 0;
+      }
+      .f-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+      .fi-g {
+        background: #e6f2eb;
+        color: #1a5c35;
+      }
+      .fi-o {
+        background: #fef3e2;
+        color: #b35c00;
+      }
+      .fi-b {
+        background: #e8eef6;
+        color: #1a3a6a;
+      }
+      .feat-num {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+      }
+      .feat-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+      }
+      .feat-desc {
+        font-size: 13.5px;
+        color: var(--text-mid);
+        line-height: 1.75;
+      }
+
+      /* ══ HOW IT WORKS ══ */
+      .how-section {
+        background: var(--surface);
+        padding: 96px 64px;
+      }
+      .how-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        max-width: 1100px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .how-grid::before {
+        content: "";
+        position: absolute;
+        top: 52px;
+        right: calc(100% / 6);
+        left: calc(100% / 6);
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--green-light),
+          var(--green-main),
+          var(--green-light)
+        );
+        z-index: 0;
+      }
+      .how-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 32px;
+        position: relative;
+        z-index: 1;
+      }
+      .how-num {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--green-dark);
+        color: white;
+        font-size: 20px;
+        font-weight: 800;
+        font-family: "Cairo", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 28px;
+        flex-shrink: 0;
+        box-shadow:
+          0 0 0 8px white,
+          0 0 0 10px var(--border);
+      }
+      .how-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        background: var(--green-light);
+        color: var(--green-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .how-icon svg {
+        width: 38px;
+        height: 38px;
+      }
+      .how-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--text-dark);
+      }
+      .how-desc {
+        font-size: 13.5px;
+        color: var(--text-mid);
+        line-height: 1.75;
+      }
+
+      /* ══ USER TYPES ══ */
+      .types-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .type-card-new {
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        border: 1.5px solid var(--border);
+        transition: all 0.3s var(--ease);
+        display: flex;
+        flex-direction: column;
+      }
+      .type-card-new:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow);
+      }
+      .type-head-new {
+        padding: 40px 28px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .type-icon-big {
+        width: 80px;
+        height: 80px;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+      }
+      .type-icon-big svg {
+        width: 36px;
+        height: 36px;
+      }
+      .type-name-new {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        font-family: "Cairo", sans-serif;
+      }
+      .type-tagline {
+        font-size: 13px;
+        color: var(--text-mid);
+      }
+      .type-body {
+        padding: 4px 28px 28px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .type-feat {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 13.5px;
+        color: var(--text-mid);
+      }
+      .type-feat:last-child {
+        border-bottom: none;
+      }
+      .type-feat svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+      .type-foot {
+        padding: 0 28px 28px;
+      }
+
+      /* ══ FAQ ══ */
+      .faq-wrap {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      .faq-item {
+        border-bottom: 1px solid var(--border);
+      }
+      .faq-q {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 0;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-dark);
+        gap: 16px;
+        transition: color 0.2s;
+        user-select: none;
+      }
+      .faq-q:hover {
+        color: var(--green-dark);
+      }
+      .faq-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--bg);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s var(--ease);
+      }
+      .faq-icon svg {
+        width: 16px;
+        height: 16px;
+        color: var(--green-dark);
+        transition: transform 0.3s var(--ease);
+      }
+      .faq-item.open .faq-icon {
+        background: var(--green-dark);
+      }
+      .faq-item.open .faq-icon svg {
+        transform: rotate(45deg);
+        color: white;
+      }
+      .faq-a {
+        font-size: 14px;
+        color: var(--text-mid);
+        line-height: 1.8;
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.35s var(--ease),
+          padding 0.3s;
+        padding: 0;
+      }
+      .faq-item.open .faq-a {
+        max-height: 200px;
+        padding-bottom: 22px;
+      }
+
+      /* ══ CTA ══ */
+      .cta-section {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          145deg,
+          #0d2b1a 0%,
+          #1a4a2e 40%,
+          #2d6a4a 100%
+        );
+        padding: 104px 64px;
+        text-align: center;
+      }
+      .cta-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.04) 1px,
+          transparent 1px
+        );
+        background-size: 24px 24px;
+      }
+      .cta-section::after {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(201, 168, 76, 0.15),
+          transparent 70%
+        );
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+      .cta-section > * {
+        position: relative;
+        z-index: 1;
+      }
+      .cta-label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: rgba(201, 168, 76, 0.9);
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      .cta-h {
+        font-size: clamp(28px, 4vw, 48px);
+        font-weight: 900;
+        color: white;
+        font-family: "Cairo", sans-serif;
+        line-height: 1.15;
+        margin-bottom: 16px;
+      }
+      .cta-sub {
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 40px;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7;
+      }
+      .cta-btns {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn-cta-white {
+        padding: 16px 40px;
+        font-size: 15px;
+        font-weight: 700;
+        background: white;
+        color: var(--green-dark);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+        transition: all 0.25s var(--ease);
+      }
+      .btn-cta-white:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.3);
+      }
+      .btn-cta-outline {
+        padding: 15px 36px;
+        font-size: 15px;
+        font-weight: 600;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        color: white;
+        background: transparent;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s var(--ease);
+      }
+      .btn-cta-outline:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* ══ FOOTER ══ */
+      .l-footer {
+        background: #0d1a12;
+        padding: 64px 64px 32px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 1fr;
+        gap: 48px;
+        max-width: 1280px;
+        margin: 0 auto 48px;
+        padding-bottom: 48px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .footer-brand img {
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+        margin-bottom: 16px;
+        display: block;
+      }
+      .footer-brand-desc {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.45);
+        line-height: 1.75;
+        max-width: 240px;
+      }
+      .footer-col-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.35);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+      .footer-col-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .f-link {
+        font-size: 13.5px;
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .f-link:hover {
+        color: white;
+      }
+      .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1280px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .footer-copy {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .footer-social {
+        display: flex;
+        gap: 10px;
+      }
+      .social-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+        cursor: pointer;
+        border: none;
+      }
+      .social-btn:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+      .social-btn svg {
+        width: 16px;
+        height: 16px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* ══ SCROLL ANIMATION ══ */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.65s var(--ease),
+          transform 0.65s var(--ease);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal.d1 {
+        transition-delay: 0.05s;
+      }
+      .reveal.d2 {
+        transition-delay: 0.12s;
+      }
+      .reveal.d3 {
+        transition-delay: 0.19s;
+      }
+      .reveal.d4 {
+        transition-delay: 0.26s;
+      }
+      .reveal.d5 {
+        transition-delay: 0.33s;
+      }
+      .reveal.d6 {
+        transition-delay: 0.4s;
+      }
+
+      /* ══ MODAL ══ */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 24px;
+        backdrop-filter: blur(4px);
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal-box {
+        background: var(--surface);
+        border-radius: 20px;
+        padding: 36px;
+        max-width: 560px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+      }
+      .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--text-dark);
+      }
+
+      /* ══ RESPONSIVE ══ */
+      @media (max-width: 1024px) {
+        .feat-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .types-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 768px) {
+        .l-nav {
+          padding: 0 20px;
+        }
+        .nav-center {
+          display: none;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+          padding: calc(var(--nav-h)+40px) 20px 48px;
+          min-height: auto;
+          gap: 32px;
+        }
+        .hero-visual {
+          display: none;
+        }
+        .section,
+        .section-full,
+        .how-section {
+          padding: 64px 20px;
+        }
+        .feat-grid {
+          grid-template-columns: 1fr;
+        }
+        .how-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .how-grid::before {
+          display: none;
+        }
+        .types-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats-bar {
+          padding: 0;
+        }
+        .stat-item {
+          padding: 24px 28px;
+          border-left: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .cta-section {
+          padding: 64px 20px;
+        }
+        .l-footer {
+          padding: 48px 20px 24px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ NAV ══ -->
+    <nav class="l-nav" id="nav">
+      <div class="nav-center">
+        <a href="#features" class="nav-link">المميزات</a>
+        <a href="#how" class="nav-link">كيف تعمل</a>
+        <a href="#faq" class="nav-link">الأسئلة الشائعة</a>
+      </div>
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="مدد" />
+      </a>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm">دخول</a>
+        <a href="register.html" class="btn btn-primary btn-sm">ابدأ مجاناً</a>
+      </div>
+    </nav>
+
+    <!-- ══ HERO ══ -->
+    <section class="hero">
+      <div class="hero-text">
+        <!-- <div class="hero-eyebrow">
+          <div class="eyebrow-dot"></div>
+          منصة تعليمية ذكية
+        </div> -->
+
+        <h1 class="hero-headline">
+          منصة مدد<em></em>
+        </h1>
+
+        <p class="hero-tagline">فكرٌ يُعدّ.. وعونٌ يَمُدّ</p>
+
+        <p class="hero-desc">
+          حوّل درجاتك وبياناتك إلى قرارات أكاديمية واثقة — من تحليل الأداء وتوقع
+          التخصص الجامعي، حتى التواصل مع مرشد أكاديمي.
+        </p>
+
+        <!-- <div class="hero-cta">
+          <a href="register.html" class="btn-hero-primary">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="width: 18px; height: 18px"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            ابدأ رحلتك مجاناً
+          </a> -->
+          <a href="#how" class="btn-hero-outline">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="width: 18px; height: 18px"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="10 8 16 12 10 16 10 8" />
+            </svg>
+            كيف تعمل المنصة؟
+          </a>
+        </div>
+
+        <!-- <div class="hero-trust">
+          <div class="trust-item">
+            <div class="trust-dot"></div>
+            ذكاء اصطناعي متقدم
+          </div>
+          <div class="trust-item">
+            <div class="trust-dot"></div>
+            بدون بطاقة ائتمان
+          </div>
+          <div class="trust-item">
+            <div class="trust-dot"></div>
+            خصوصية مضمونة
+          </div>
+          <div class="trust-item">
+            <div class="trust-dot"></div>
+            مجتمع تعليمي حقيقي
+          </div>
+        </div> -->
+      </div>
+
+      <!-- Visual side -->
+      <div class="hero-visual">
+        <div class="hero-ring hero-ring-1"></div>
+        <div class="hero-ring hero-ring-2"></div>
+        <div class="hero-ring hero-ring-3"></div>
+
+        <div class="hero-logo-wrap">
+          <img src="images/logo.png" alt="مدد" />
+        </div>
+
+        <!-- Floating chips -->
+        <div class="hero-chip chip-1">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+            <circle cx="12" cy="12" r="2" />
+          </svg>
+          التخصص المناسب لك
+        </div>
+        <div class="hero-chip chip-2">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+          تحليل الأداء الأكاديمي
+        </div>
+        <div class="hero-chip chip-3">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
+          </svg>
+          مساعد ذكي ٢٤/٧
+        </div>
+        <div class="hero-chip chip-4">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          مرشد أكاديمي جاهز
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ IMPACT BAR ══ -->
+    <div class="stats-bar">
+      <div class="stat-item reveal d1">
+        <div class="stat-val">قرار</div>
+        <div class="stat-lbl">توصية تخصص مبنية على الدرجات والميول</div>
+      </div>
+
+      <div class="stat-item reveal d2">
+        <div class="stat-val">لحظي</div>
+        <div class="stat-lbl">متابعة أداء الطالب أثناء الفصل الدراسي</div>
+      </div>
+
+      <div class="stat-item reveal d3">
+        <div class="stat-val">مبكر</div>
+        <div class="stat-lbl">تنبيه للتعثر قبل ظهور النتائج النهائية</div>
+      </div>
+
+      <div class="stat-item reveal d4">
+        <div class="stat-val">آمن</div>
+        <div class="stat-lbl">مجتمع دعم موجّه من طلاب وخبراء</div>
+      </div>
+    </div>
+
+    <!-- ══ FEATURES ══ -->
+    <div class="section" id="features">
+      <div class="section-header center">
+        <div class="tag-line">المميزات</div>
+        <h2 class="section-h">كل ما تحتاجه، في مكان واحد</h2>
+        <p class="section-sub">
+          منظومة متكاملة تغطي كل جوانب مسيرتك الأكاديمية من الثانوية حتى التخرج
+        </p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card reveal d1">
+          <div class="f-icon fi-g">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="6" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
+          </div>
+          <div class="feat-num">01</div>
+          <div class="feat-title">التنبؤ بالتخصص الجامعي</div>
+          <p class="feat-desc">
+            نموذج ذكاء اصطناعي يحلل درجاتك واهتماماتك ويوصي بأنسب ٣ تخصصات، مع
+            نسبة التطابق ونطاق الراتب وتوقعات سوق العمل.
+          </p>
+        </div>
+        <div class="feat-card reveal d2">
+          <div class="f-icon fi-g">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="20" x2="18" y2="10" />
+              <line x1="12" y1="20" x2="12" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="14" />
+            </svg>
+          </div>
+          <div class="feat-num">02</div>
+          <div class="feat-title">تتبع الأداء الأكاديمي</div>
+          <p class="feat-desc">
+            رسوم بيانية تفاعلية تتابع درجاتك في القدرات والتحصيلي وستيب ونسبة
+            المدرسة، مع تنبيهات ذكية قبل أي تراجع.
+          </p>
+        </div>
+        <div class="feat-card reveal d3">
+          <div class="f-icon fi-o">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <div class="feat-num">03</div>
+          <div class="feat-title">خريطة المجتمع التعليمي</div>
+          <p class="feat-desc">
+            خريطة تفاعلية تربطك بطلاب ومرشدين أكاديميين في مدينتك يشاركونك
+            الاهتمامات، مع نظام رسائل مباشر وآمن.
+          </p>
+        </div>
+        <div class="feat-card reveal d4">
+          <div class="f-icon fi-o">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
+            </svg>
+          </div>
+          <div class="feat-num">04</div>
+          <div class="feat-title">مساعد ذكي 24/7</div>
+          <p class="feat-desc">
+            اطرح أي سؤال أكاديمي وستحصل على رد فوري مخصص. المساعد يعرف بياناتك
+            الأكاديمية ويبني إجابته على وضعك الفعلي.
+          </p>
+        </div>
+        <div class="feat-card reveal d5">
+          <div class="f-icon fi-b">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
+              <polyline points="14 2 14 8 20 8" />
+              <path d="M9 13h6" />
+              <path d="M9 17h4" />
+            </svg>
+          </div>
+          <div class="feat-num">05</div>
+          <div class="feat-title">قراءة الشهادات تلقائياً</div>
+          <p class="feat-desc">
+            ارفع صورة شهادتك وسيستخرج النظام درجاتك تلقائياً بالذكاء الاصطناعي —
+            يعمل على صور الشهادات الرسمية والتقارير الطلابية.
+          </p>
+        </div>
+        <div class="feat-card reveal d6">
+          <div class="f-icon fi-b">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <div class="feat-num">06</div>
+          <div class="feat-title">بيئة آمنة ومراقبة</div>
+          <p class="feat-desc">
+            نظام فلترة بالذكاء الاصطناعي يراقب المحتوى تلقائياً، مع تشفير كامل
+            للبيانات وضمان خصوصية معلوماتك الأكاديمية.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ HOW IT WORKS ══ -->
+    <div class="how-section" id="how">
+      <div style="max-width: 1280px; margin: 0 auto">
+        <div class="section-header center">
+          <div class="tag-line">خطوات البدء</div>
+          <h2 class="section-h">ابدأ رحلتك في ٣ خطوات</h2>
+          <p class="section-sub">بسيط وسريع — حسابك جاهز في أقل من ٥ دقائق</p>
+        </div>
+        <div class="how-grid">
+          <div class="how-card reveal d1">
+            <div class="how-num">١</div>
+            <div class="how-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <div class="how-title">أنشئ حسابك</div>
+            <p class="how-desc">
+              اختر نوع حسابك — طالب ثانوي أو جامعي أو مرشد أكاديمي — وأكمل
+              بياناتك الأساسية في أقل من دقيقتين.
+            </p>
+          </div>
+          <div class="how-card reveal d2">
+            <div class="how-num">٢</div>
+            <div class="how-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+            <div class="how-title">أدخل بياناتك الأكاديمية</div>
+            <p class="how-desc">
+              ارفع صورة شهادتك وسيقرأها الذكاء الاصطناعي تلقائياً، أو أدخل
+              درجاتك يدوياً. الملف الأكاديمي الذكي يُبنى فوراً.
+            </p>
+          </div>
+          <div class="how-card reveal d3">
+            <div class="how-num">٣</div>
+            <div class="how-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+            </div>
+            <div class="how-title">احصل على توصياتك</div>
+            <p class="how-desc">
+              اكتشف التخصصات الأنسب لك، راجع تقاريرك الأكاديمية، وتواصل مع
+              مرشدين في مدينتك — كل هذا في لوحة تحكم واحدة.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ USER TYPES ══ -->
+    <div class="section">
+      <div class="section-header center">
+        <div class="tag-line">لمن هذه المنصة؟</div>
+        <h2 class="section-h">مدد للجميع</h2>
+        <p class="section-sub">
+          سواء كنت في الثانوي أو الجامعة أو مرشداً — لديك مكان في مدد
+        </p>
+      </div>
+      <div class="types-grid">
+        <div class="type-card-new reveal d1">
+          <div
+            class="type-head-new"
+            style="
+              background: linear-gradient(160deg, #eaf2ed 0%, #f5f0e8 100%);
+            "
+          >
+            <div
+              class="type-icon-big"
+              style="background: var(--green-light); color: var(--green-dark)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+              </svg>
+            </div>
+            <div class="type-name-new" style="color: var(--green-dark)">
+              الطالب الثانوي
+            </div>
+            <div class="type-tagline">من الثالث متوسط حتى الثالث ثانوي</div>
+          </div>
+          <div class="type-body">
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2d6a4a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >متابعة القدرات والتحصيلي وستيب
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2d6a4a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >حساب الموزونة التلقائي للثالث ثانوي
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2d6a4a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >توقع التخصص الجامعي المناسب
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2d6a4a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >تواصل مع مرشدين أكاديميين
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2d6a4a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >عدّادات أيام الاختبارات القادمة
+            </div>
+          </div>
+          <div class="type-foot">
+            <a
+              href="register.html?type=secondary"
+              class="btn btn-primary btn-full"
+              >سجّل كطالب ثانوي</a
+            >
+          </div>
+        </div>
+
+        <div class="type-card-new reveal d2">
+          <div
+            class="type-head-new"
+            style="
+              background: linear-gradient(160deg, #fdf5e6 0%, #f5f0e8 100%);
+            "
+          >
+            <div
+              class="type-icon-big"
+              style="background: var(--gold-light); color: var(--gold-dark)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+              </svg>
+            </div>
+            <div class="type-name-new" style="color: var(--gold-dark)">
+              الطالب الجامعي
+            </div>
+            <div class="type-tagline">في مرحلة البكالوريوس أو أعلى</div>
+          </div>
+          <div class="type-body">
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#b35c00"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >إدارة المقررات والمعدل التراكمي GPA
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#b35c00"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >تنبيهات المواد المتعثرة مبكراً
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#b35c00"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >تحليل ذكي للمقررات بالذكاء الاصطناعي
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#b35c00"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >رسوم بيانية للأداء الفصلي
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#b35c00"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >مجتمع الطلاب في مدينتك
+            </div>
+          </div>
+          <div class="type-foot">
+            <a
+              href="register.html?type=university"
+              class="btn btn-gold btn-full"
+              >سجّل كطالب جامعي</a
+            >
+          </div>
+        </div>
+
+        <div class="type-card-new reveal d3">
+          <div
+            class="type-head-new"
+            style="
+              background: linear-gradient(160deg, #edf0f5 0%, #f5f0e8 100%);
+            "
+          >
+            <div
+              class="type-icon-big"
+              style="background: #e8edf5; color: #1a3a6a"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M6 20v-1a6 6 0 0 1 12 0v1" />
+                <path d="M19 11l2 2-4 4" />
+              </svg>
+            </div>
+            <div class="type-name-new" style="color: #1a3a6a">
+              المرشد الأكاديمي
+            </div>
+            <div class="type-tagline">خبير يرغب في توجيه الطلاب</div>
+          </div>
+          <div class="type-body">
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1a3a6a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >استقبال طلبات الطلاب وتصفيتها
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1a3a6a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >مساعدة ذكية في صياغة الردود الأكاديمية
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1a3a6a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >لوحة تحكم نشاطك الإرشادي
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1a3a6a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >خريطة مجتمعية تفاعلية
+            </div>
+            <div class="type-feat">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1a3a6a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" /></svg
+              >رسائل مباشرة آمنة مع الطلاب
+            </div>
+          </div>
+          <div class="type-foot">
+            <a href="register.html?type=mentor" class="btn btn-outline btn-full"
+              >سجّل كمرشد أكاديمي</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FAQ ══ -->
+    <div class="how-section" id="faq">
+      <div style="max-width: 1280px; margin: 0 auto">
+        <div class="section-header center">
+          <div class="tag-line">الأسئلة الشائعة</div>
+          <h2 class="section-h">لديك سؤال؟</h2>
+          <p class="section-sub">إجابات على الأسئلة الأكثر شيوعاً</p>
+        </div>
+        <div class="faq-wrap">
+          <div class="faq-item open">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              هل المنصة مجانية بالكامل؟
+              <div class="faq-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </div>
+            </div>
+            <div class="faq-a">
+              نعم، مدد مجانية تماماً لجميع المستخدمين — طلاباً ومرشدين — بدون أي
+              رسوم خفية أو قيود على الميزات. المنصة مشروع أكاديمي هدفه خدمة
+              الطلاب السعوديين.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              كيف يعمل الذكاء الاصطناعي في قراءة الشهادات؟
+              <div class="faq-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </div>
+            </div>
+            <div class="faq-a">
+              نستخدم نموذج ذكاء اصطناعي متقدم لتحليل صور الشهادات الدراسية
+              واستخراج الدرجات تلقائياً. ارفع صورة واضحة للشهادة وسيستخرج النظام
+              بياناتك في ثوانٍ. يمكن أيضاً الإدخال اليدوي للدرجات.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              هل بياناتي الأكاديمية آمنة؟
+              <div class="faq-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </div>
+            </div>
+            <div class="faq-a">
+              بياناتك محفوظة بتشفير كامل على خوادم سحابية آمنة، ولا تُشارك مع أي
+              طرف خارجي. البيانات الحساسة كرقم الهوية لا تُخزَّن على الإطلاق.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              من يمكنه الانضمام كمرشد أكاديمي؟
+              <div class="faq-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </div>
+            </div>
+            <div class="faq-a">
+              أي شخص لديه خبرة أكاديمية أو مهنية ويرغب في مساعدة الطلاب طوعاً —
+              خريجو الجامعات، أساتذة، أو أصحاب خبرة مهنية. تُحدّد تخصصك وتبدأ
+              استقبال استفسارات الطلاب مباشرة.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              هل يعمل نموذج التنبؤ بالتخصص بدقة؟
+              <div class="faq-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </div>
+            </div>
+            <div class="faq-a">
+              النموذج مدرَّب على بيانات الطلاب السعوديين ويقدم توصيات مبنية على
+              درجاتك الفعلية واهتماماتك. النتائج دقيقة لكننا نشجعك دائماً على
+              مناقشتها مع مرشد أكاديمي لاتخاذ القرار النهائي.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CTA ══ -->
+    <div class="cta-section">
+      <div class="cta-label">ابدأ اليوم</div>
+      <h2 class="cta-h">مستعد تبني مستقبلك<br />الأكاديمي بثقة؟</h2>
+      <p class="cta-sub">
+        انضم إلى مدد الآن وابدأ في اتخاذ قرارات أكاديمية مبنية على بيانات حقيقية
+        وتوجيه ذكي.
+      </p>
+      <div class="cta-btns">
+        <a href="register.html" class="btn-cta-white">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="width: 18px; height: 18px"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+          إنشاء حساب مجاني
+        </a>
+        <a href="login.html" class="btn-cta-outline">لديّ حساب بالفعل</a>
+      </div>
+    </div>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="l-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="مدد" />
+          <p class="footer-brand-desc">
+            منصة تعليمية ذكية تُعدّ لمستقبل الطالب وتَمُدّه بالدعم الأكاديمي
+            الذي يحتاجه — مجاناً، بالعربية، وبالذكاء الاصطناعي.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">المنصة</div>
+          <div class="footer-col-links">
+            <a href="#features" class="f-link">المميزات</a>
+            <a href="#how" class="f-link">كيف تعمل</a>
+            <a href="#faq" class="f-link">الأسئلة الشائعة</a>
+            <a href="register.html" class="f-link">إنشاء حساب</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">للمستخدمين</div>
+          <div class="footer-col-links">
+            <a href="register.html?type=secondary" class="f-link">طالب ثانوي</a>
+            <a href="register.html?type=university" class="f-link"
+              >طالب جامعي</a
+            >
+            <a href="register.html?type=mentor" class="f-link">مرشد أكاديمي</a>
+            <a href="login.html" class="f-link">دخول</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">التواصل</div>
+          <div class="footer-col-links">
+            <a href="mailto:support@madd.sa" class="f-link">support@madd.sa</a>
+            <a
+              href="#"
+              class="f-link"
+              onclick="
+                document.getElementById('aboutModal').classList.add('show')
+              "
+              >عن مدد</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">
+          © 2025 مدد. جميع الحقوق محفوظة — مشروع أكاديمي غير تجاري
+        </div>
+        <div class="footer-social">
+          <button
+            class="social-btn"
+            title="البريد الإلكتروني"
+            onclick="window.location = 'mailto:support@madd.sa'"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ABOUT MODAL -->
+    <div
+      class="modal-overlay"
+      id="aboutModal"
+      onclick="if (event.target === this) this.classList.remove('show');"
+    >
+      <div class="modal-box">
+        <div class="modal-title">عن منصة مدد</div>
+        <p
+          style="
+            color: var(--text-mid);
+            line-height: 1.85;
+            margin-bottom: 14px;
+            font-size: 14px;
+          "
+        >
+          <strong>مدد</strong> منصة تعليمية ذكية مدعومة بالذكاء الاصطناعي، هدفها
+          مساعدة الطلاب السعوديين على فهم قدراتهم الأكاديمية واتخاذ قرارات واثقة
+          لمستقبلهم.
+        </p>
+        <p
+          style="
+            color: var(--text-mid);
+            line-height: 1.85;
+            margin-bottom: 14px;
+            font-size: 14px;
+          "
+        >
+          تربط المنصة بين الطلاب والمرشدين في نفس المدينة، وتستخدم نماذج ذكاء
+          اصطناعي متقدمة للتنبؤ بالتخصص الجامعي الأنسب، وتوفر تقارير أكاديمية
+          ذكية مخصصة لكل طالب.
+        </p>
+        <p style="color: var(--text-mid); line-height: 1.85; font-size: 14px">
+          <strong>رؤيتنا:</strong> طالب يعرف قدراته، يخطط لمستقبله، ويجد الدعم
+          عند الحاجة.
+        </p>
+        <div style="margin-top: 24px; text-align: left">
+          <button
+            class="btn btn-ghost"
+            onclick="
+              document.getElementById('aboutModal').classList.remove('show')
+            "
+          >
+            إغلاق
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script>
+      if (getCurrentUser()) window.location.href = "dashboard.html";
+
+      const nav = document.getElementById("nav");
+      window.addEventListener(
+        "scroll",
+        () => {
+          nav.classList.toggle("scrolled", window.scrollY > 40);
+        },
+        { passive: true },
+      );
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      function toggleFaq(btn) {
+        const item = btn.closest(".faq-item");
+        const isOpen = item.classList.contains("open");
+        document
+          .querySelectorAll(".faq-item")
+          .forEach((i) => i.classList.remove("open"));
+        if (!isOpen) item.classList.add("open");
+      }
+    </script>
+  </body>
+</html>
